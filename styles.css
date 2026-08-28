@@ -1,0 +1,14 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.main-page {
+    background-image: url('images/crates.jpg');
+    background-repeat: repeat;
+}
+
+
+.centered-content {
+    width: 800px;
+    margin: 0px auto 0px auto;   
+}
