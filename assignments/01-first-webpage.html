@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Assignment 1: Your First Webpage</title>
+</head>
+
+<body>
+    <h1>Assignment 1: Your First Webpage (Hosted on GitHub Pages)</h1>
+
+    <h2>Goal</h2>
+    <p>
+        Create a <strong>simple, creative website</strong> using only <strong>plain HTML</strong> (no javascript).
+        You will also experiment with the <code>style</code> attribute to change how your webpage looks (do not use css,
+        only use the <code>style</code> attributes at this point).
+        This will feel limiting, but don't worry, we'll "unlock" the rest of the formatting/coding potential soon.
+        Finally, you will publish your site online using <em>GitHub Pages</em>.
+    </p>
+
+    <h2>Requirements</h2>
+    <ol>
+        <li>
+            <strong>HTML only</strong><br>
+            No external CSS files and no JavaScript.<br>
+            You <em>must</em> include at least <strong>10 different HTML tags</strong>
+            (e.g. headings, paragraphs, links, lists, images, tables, blockquotes, etc.).
+        </li>
+        <li>
+            <strong>Use inline styling</strong><br>
+            Apply the <code>style</code> attribute to at least <strong>3 different elements</strong>.<br>
+            Example:
+            <pre><code>&lt;h1 style="color:blue; text-align:center;"&gt;Welcome to my page!&lt;/h1&gt;</code></pre>
+        </li>
+        <li>
+            <strong>Creativity</strong><br>
+            The content can be about <em>anything you like</em>: a personal interest, a fictional world,
+            your favorite foods, etc.<br>
+            Experiment and explore how you can combine elements.
+        </li>
+        <li>
+            <strong>Page structure</strong><br>
+            Your page should have at least:
+            <ul>
+                <li>A title (<code>&lt;title&gt;</code> inside <code>&lt;head&gt;</code>).</li>
+                <li>A heading (<code>&lt;h1&gt;</code>).</li>
+                <li>At least 3 sections of content.</li>
+                <li>At least two links to other pages/sites: One local (linking to another local html file using a relative link) the other a link to
+                    the web (e.g. wikipedia or something).</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Host it online</strong><br>
+            See these <a href="./setup.html">setup instructions</a> for what you need to do to get your website
+            hosted online. Your file must be placed in the <strong>exact folder location</strong> described
+            below in <a href="#folder-structure">Folder Structure</a>, or it will not be found.
+        </li>
+    </ol>
+
+    <h2 id="folder-structure">Folder Structure — Read This Carefully</h2>
+    <p>
+        This is the part people mess up. GitHub Pages turns your <strong>folders</strong> into parts of your
+        website's <strong>web address</strong>. Every assignment gets its own folder inside your repository,
+        so that each assignment has its own unique address and nothing gets overwritten by a later assignment.
+        For this assignment, your files need to live in exactly this location, no more, no less, no different:
+    </p>
+    <pre><code>csc336-fall2026/              &lt;- the repository you created in the setup instructions
+└── assignments/               &lt;- a folder named exactly "assignments"
+    └── 01-first-webpage/      &lt;- a folder named exactly "01-first-webpage"
+        └── index.html         &lt;- your webpage file, named exactly "index.html"</code></pre>
+    <p><strong>Step by step:</strong></p>
+    <ol>
+        <li>Inside <code>csc336-fall2026</code>, create a new folder. Name it <code>assignments</code> —
+            all lowercase, no spaces, spelled exactly like that.</li>
+        <li>Inside the <code>assignments</code> folder you just made, create <em>another</em> new folder.
+            Name it <code>01-first-webpage</code> — exactly like that, including the dash.</li>
+        <li>Put your webpage file inside the <code>01-first-webpage</code> folder, and name that file
+            <code>index.html</code> — all lowercase, ending in <code>.html</code> (not <code>.htm</code>,
+            not <code>.txt</code>, not <code>Index.html</code>).</li>
+        <li>Commit and push, same as in the setup instructions.</li>
+    </ol>
+    <p>
+        Folder and file names must match <strong>exactly</strong> — capitalization, spelling, and dashes all
+        matter. <code>Assignments</code> is not the same as <code>assignments</code>.
+    </p>
+    <p>
+        Once this is set up correctly, your assignment will be visible at:<br>
+        <code>https://&lt;your-username&gt;.github.io/csc336-fall2026/assignments/01-first-webpage/</code>
+    </p>
+
+    <h2>Helpful Resources</h2>
+    <ul>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element" target="_blank">MDN HTML Elements
+                Reference</a></li>
+        <li><a href="https://www.w3schools.com/html/html_styles.asp" target="_blank">W3Schools HTML Style Guide</a></li>
+    </ul>
+
+    <h2>Example Ideas</h2>
+    <ul>
+        <li>A one-page “museum” of your favorite memes.</li>
+        <li>A travel guide to an imaginary country.</li>
+        <li>A family recipe page with styled headings and lists.</li>
+        <li>A mini photo gallery with captions.</li>
+    </ul>
+
+    <h2>What to Submit</h2>
+    <p>
+        You should not need to submit anything and your website should be publicly available by going to
+        (see <a href="#folder-structure">Folder Structure</a> above for exactly where your file needs to be
+        for this address to work):
+    </p>
+    <p><code>https://&lt;your-username&gt;.github.io/csc336-fall2026/assignments/01-first-webpage/</code></p>
+
+</body>
+
+</html>
