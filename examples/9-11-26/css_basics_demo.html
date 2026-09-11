@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CSS Basics — Live Demo</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+
+  h1 {
+    color: #0f172a;
+  }
+
+  h2 {
+    margin-top: 48px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #e2e8f0;
+    color: #0f172a;
+  }
+
+  /* Every demo lives in one of these: a heading naming the property (linked
+     to its MDN docs page), the rendered result, and a code caption showing
+     the exact CSS used. */
+  .demo-item {
+    margin-bottom: 28px;
+  }
+
+  .demo-label {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 13px;
+    background-color: #f1f5f9;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+
+  .demo-label a {
+    color: #0369a1;
+    text-decoration: none;
+  }
+
+  .demo-label a:hover {
+    text-decoration: underline;
+  }
+
+  .demo-note {
+    font-size: 14px;
+    color: #475569;
+    margin: 6px 0 0 0;
+  }
+
+  /* Sits directly under a rendered example, showing the literal CSS
+     declaration(s) that produced it. */
+  .demo-code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 12px;
+    color: #0369a1;
+    background-color: #f1f5f9;
+    padding: 3px 7px;
+    border-radius: 4px;
+    display: inline-block;
+    margin: 6px 0 0 0;
+  }
+
+  /* Groups a rendered example with its own code caption, so several of
+     these can sit side by side when a demo compares a few values. */
+  .demo-variant {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  .demo-variants-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  /* A light gray "stage" behind a demo box makes margin (the space
+     outside the box) visible, since margin has no color of its own. */
+  .stage {
+    background-color: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    padding: 12px;
+  }
+</style>
+</head>
+<body>
+
+<h1>CSS Basics — Live Demo</h1>
+<p>
+  A live, in-browser companion to <code>css_basics_reference.html</code>. Each property gets its
+  own small, real example instead of just a table row, with the exact CSS shown right under the
+  result. Every property name links to its MDN documentation page.
+</p>
+<p>
+  Sections 1–4 (box model, typography, colors, display) match the 9/11 lesson. Sections 5–7
+  (positioning, flexbox, visual polish) are here for later classes — not meant to be shown all in
+  one sitting.
+</p>
+
+<!-- ===================== 1. Box Model & Dimensions ===================== -->
+<h2>1. The Box Model &amp; Dimensions</h2>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/width" target="_blank" rel="noopener">width</a> / <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/height" target="_blank" rel="noopener">height</a></p>
+  <div class="demo-variant">
+    <div style="width: 220px; height: 80px; background-color: #bae6fd; display: flex; align-items: center; justify-content: center;">
+      220px × 80px
+    </div>
+    <p class="demo-code">width: 220px; height: 80px;</p>
+  </div>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/max-width" target="_blank" rel="noopener">max-width</a></p>
+  <div class="demo-variant">
+    <p style="max-width: 260px; background-color: #bae6fd; padding: 8px;">
+      This paragraph wraps instead of stretching across the whole page, no matter how much text
+      it holds.
+    </p>
+    <p class="demo-code">max-width: 260px;</p>
+  </div>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/padding" target="_blank" rel="noopener">padding</a></p>
+  <div class="demo-variants-row">
+    <div class="demo-variant">
+      <div style="padding: 0; border: 2px solid #0284c7; background-color: #e0f2fe;">no padding</div>
+      <p class="demo-code">padding: 0;</p>
+    </div>
+    <div class="demo-variant">
+      <div style="padding: 20px; border: 2px solid #0284c7; background-color: #e0f2fe;">padding</div>
+      <p class="demo-code">padding: 20px;</p>
+    </div>
+  </div>
+  <p class="demo-note">Padding is the gap between the content and the border — inside the box.</p>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/margin" target="_blank" rel="noopener">margin</a></p>
+  <div class="stage">
+    <div class="demo-variant">
+      <div style="background-color: #fde68a; padding: 8px;">first box</div>
+      <p class="demo-code">margin: 0;</p>
+    </div>
+    <div class="demo-variant">
+      <div style="background-color: #fde68a; padding: 8px; margin-top: 24px;">second box</div>
+      <p class="demo-code">margin-top: 24px;</p>
+    </div>
+  </div>
+  <p class="demo-note">Margin is the gap outside the border, pushing other elements away.</p>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing" target="_blank" rel="noopener">box-sizing</a></p>
+  <div class="demo-variants-row">
+    <div class="demo-variant">
+      <div style="box-sizing: content-box; width: 150px; padding: 20px; border: 4px solid #0284c7; background-color: #e0f2fe;">
+        content-box (default)
+      </div>
+      <p class="demo-code">box-sizing: content-box; width: 150px; padding: 20px; border: 4px;</p>
+    </div>
+    <div class="demo-variant">
+      <div style="box-sizing: border-box; width: 150px; padding: 20px; border: 4px solid #0284c7; background-color: #e0f2fe;">
+        border-box
+      </div>
+      <p class="demo-code">box-sizing: border-box; width: 150px; padding: 20px; border: 4px;</p>
+    </div>
+  </div>
+  <p class="demo-note">
+    Both boxes are declared <code>width: 150px</code>. With <code>content-box</code>, the padding
+    and border are added on top, so the box actually renders wider than 150px. With
+    <code>border-box</code>, the padding and border are included inside the 150px — the box stays
+    exactly the width you asked for. This is why most CSS resets set border-box globally.
+  </p>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/border" target="_blank" rel="noopener">border</a></p>
+  <div class="demo-variant">
+    <div style="border: 3px solid #0284c7; padding: 12px; background-color: #f8fafc; width: 200px;">
+      bordered box
+    </div>
+    <p class="demo-code">border: 3px solid #0284c7;</p>
+  </div>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/border-radius" target="_blank" rel="noopener">border-radius</a></p>
+  <div class="demo-variants-row">
+    <div class="demo-variant">
+      <div style="width: 100px; height: 80px; border-radius: 16px; background-color: #93c5fd;"></div>
+      <p class="demo-code">border-radius: 16px;</p>
+    </div>
+    <div class="demo-variant">
+      <div style="width: 80px; height: 80px; border-radius: 50%; background-color: #93c5fd;"></div>
+      <p class="demo-code">border-radius: 50%;</p>
+    </div>
+  </div>
+  <p class="demo-note">A radius of 50% on an equal width/height box makes a perfect circle.</p>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/overflow" target="_blank" rel="noopener">overflow</a></p>
+  <div class="demo-variants-row">
+    <div class="demo-variant">
+      <div style="width: 150px; height: 60px; overflow: hidden; border: 2px solid #0284c7; background-color: #e0f2fe;">
+        This text is much longer than the box, so the extra part gets clipped off.
+      </div>
+      <p class="demo-code">overflow: hidden;</p>
+    </div>
+    <div class="demo-variant">
+      <div style="width: 150px; height: 60px; overflow: auto; border: 2px solid #0284c7; background-color: #e0f2fe;">
+        This text is much longer than the box, so a scrollbar appears instead of clipping.
+      </div>
+      <p class="demo-code">overflow: auto;</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 2. Typography & Text Formatting ===================== -->
+<h2>2. Typography &amp; Text Formatting</h2>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/font-family" target="_blank" rel="noopener">font-family</a></p>
+  <div class="demo-variant">
+    <p style="font-family: 'Times New Roman', serif; margin: 0;">This line uses a serif font stack.</p>
+    <p class="demo-code">font-family: 'Times New Roman', serif;</p>
+  </div>
+  <div class="demo-variant" style="margin-top: 12px;">
+    <p style="font-family: ui-monospace, Menlo, monospace; margin: 0;">This line uses a monospace font stack.</p>
+    <p class="demo-code">font-family: ui-monospace, Menlo, monospace;</p>
+  </div>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/font-size" target="_blank" rel="noopener">font-size</a></p>
+  <div class="demo-variant">
+    <p style="font-size: 12px; margin: 0;">Twelve pixel text.</p>
+    <p class="demo-code">font-size: 12px;</p>
+  </div>
+  <div class="demo-variant" style="margin-top: 12px;">
+    <p style="font-size: 24px; margin: 0;">Twenty-four pixel text.</p>
+    <p class="demo-code">font-size: 24px;</p>
+  </div>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight" target="_blank" rel="noopener">font-weight</a></p>
+  <div class="demo-variant">
+    <p style="font-weight: 400; margin: 0;">Normal weight text.</p>
+    <p class="demo-code">font-weight: 400;</p>
+  </div>
+  <div class="demo-variant" style="margin-top: 12px;">
+    <p style="font-weight: 700; margin: 0;">Bold weight text.</p>
+    <p class="demo-code">font-weight: 700;</p>
+  </div>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/line-height" target="_blank" rel="noopener">line-height</a></p>
+  <div class="demo-variant">
+    <p style="line-height: 1; max-width: 300px; background-color: #f1f5f9; padding: 8px; margin: 0;">
+      The lines of this wrapped paragraph sit tight against each other, which is harder to read.
+    </p>
+    <p class="demo-code">line-height: 1;</p>
+  </div>
+  <div class="demo-variant" style="margin-top: 12px;">
+    <p style="line-height: 2; max-width: 300px; background-color: #f1f5f9; padding: 8px; margin: 0;">
+      The lines of this wrapped paragraph have much more breathing room.
+    </p>
+    <p class="demo-code">line-height: 2;</p>
+  </div>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/text-align" target="_blank" rel="noopener">text-align</a></p>
+  <div class="demo-variant">
+    <p style="text-align: left; width: 100%; margin: 0;">left-aligned text</p>
+    <p class="demo-code">text-align: left;</p>
+  </div>
+  <div class="demo-variant" style="margin-top: 8px;">
+    <p style="text-align: center; width: 100%; margin: 0;">center-aligned text</p>
+    <p class="demo-code">text-align: center;</p>
+  </div>
+  <div class="demo-variant" style="margin-top: 8px;">
+    <p style="text-align: right; width: 100%; margin: 0;">right-aligned text</p>
+    <p class="demo-code">text-align: right;</p>
+  </div>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration" target="_blank" rel="noopener">text-decoration</a></p>
+  <div class="demo-variant">
+    <p style="text-decoration: underline; margin: 0;">underlined text</p>
+    <p class="demo-code">text-decoration: underline;</p>
+  </div>
+  <div class="demo-variant" style="margin-top: 8px;">
+    <p style="text-decoration: line-through; margin: 0;">struck-through text</p>
+    <p class="demo-code">text-decoration: line-through;</p>
+  </div>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/text-transform" target="_blank" rel="noopener">text-transform</a></p>
+  <div class="demo-variant">
+    <p style="text-transform: uppercase; margin: 0;">shouting text</p>
+    <p class="demo-code">text-transform: uppercase;</p>
+  </div>
+  <div class="demo-variant" style="margin-top: 8px;">
+    <p style="text-transform: capitalize; margin: 0;">title case text</p>
+    <p class="demo-code">text-transform: capitalize;</p>
+  </div>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/letter-spacing" target="_blank" rel="noopener">letter-spacing</a></p>
+  <div class="demo-variant">
+    <p style="letter-spacing: 3px; margin: 0;">spaced out text</p>
+    <p class="demo-code">letter-spacing: 3px;</p>
+  </div>
+</div>
+
+<!-- ===================== 3. Colors & Backgrounds ===================== -->
+<h2>3. Colors &amp; Backgrounds</h2>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color" target="_blank" rel="noopener">color</a></p>
+  <div class="demo-variant">
+    <p style="color: #0284c7; margin: 0;">This text is colored.</p>
+    <p class="demo-code">color: #0284c7;</p>
+  </div>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/background-color" target="_blank" rel="noopener">background-color</a></p>
+  <div class="demo-variant">
+    <p style="background-color: #fde68a; padding: 8px; margin: 0;">This text sits on a colored background.</p>
+    <p class="demo-code">background-color: #fde68a;</p>
+  </div>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/background-image" target="_blank" rel="noopener">background-image</a></p>
+  <div class="demo-variant">
+    <div style="width: 300px; height: 120px; background-image: url('../../images/www.png');"></div>
+    <p class="demo-code">background-image: url('www.png');</p>
+  </div>
+  <p class="demo-note">
+    By default, a background image repeats (tiles) to fill the whole box — that's what
+    background-repeat, background-size, and background-position below are for.
+  </p>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/background-size" target="_blank" rel="noopener">background-size</a></p>
+  <div class="demo-variants-row">
+    <div class="demo-variant">
+      <div style="width: 160px; height: 120px; background-image: url('../../images/crates.jpg'); background-size: cover; border: 1px solid #cbd5e1;"></div>
+      <p class="demo-code">background-size: cover;</p>
+    </div>
+    <div class="demo-variant">
+      <div style="width: 160px; height: 120px; background-image: url('../../images/crates.jpg'); background-size: contain; background-repeat: no-repeat; border: 1px solid #cbd5e1;"></div>
+      <p class="demo-code">background-size: contain;</p>
+    </div>
+  </div>
+  <p class="demo-note">cover (left) fills the box, cropping the edges. contain (right) fits the whole image inside, leaving empty space.</p>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat" target="_blank" rel="noopener">background-repeat</a></p>
+  <div class="demo-variants-row">
+    <div class="demo-variant">
+      <div style="width: 200px; height: 100px; background-image: url('../../images/www.png'); background-size: 40px; background-repeat: repeat; border: 1px solid #cbd5e1;"></div>
+      <p class="demo-code">background-repeat: repeat;</p>
+    </div>
+    <div class="demo-variant">
+      <div style="width: 200px; height: 100px; background-image: url('../../images/www.png'); background-size: 40px; background-repeat: no-repeat; border: 1px solid #cbd5e1;"></div>
+      <p class="demo-code">background-repeat: no-repeat;</p>
+    </div>
+  </div>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/background-position" target="_blank" rel="noopener">background-position</a></p>
+  <div class="demo-variant">
+    <div style="width: 200px; height: 100px; background-image: url('../../images/www.png'); background-size: 40px; background-repeat: no-repeat; background-position: bottom right; border: 1px solid #cbd5e1;"></div>
+    <p class="demo-code">background-position: bottom right;</p>
+  </div>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/opacity" target="_blank" rel="noopener">opacity</a></p>
+  <div class="demo-variants-row">
+    <div class="demo-variant">
+      <div style="width: 100px; height: 60px; background-color: #0284c7; opacity: 1;"></div>
+      <p class="demo-code">opacity: 1;</p>
+    </div>
+    <div class="demo-variant">
+      <div style="width: 100px; height: 60px; background-color: #0284c7; opacity: 0.5;"></div>
+      <p class="demo-code">opacity: 0.5;</p>
+    </div>
+    <div class="demo-variant">
+      <div style="width: 100px; height: 60px; background-color: #0284c7; opacity: 0.1;"></div>
+      <p class="demo-code">opacity: 0.1;</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 4. Display & Document Flow ===================== -->
+<h2>4. Display &amp; Document Flow</h2>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/display" target="_blank" rel="noopener">display: block</a></p>
+  <div class="demo-variant">
+    <div>
+      <span style="display: block; background-color: #bae6fd;">block 1 — starts a new line and fills the full width</span>
+      <span style="display: block; background-color: #bae6fd;">block 2</span>
+    </div>
+    <p class="demo-code">display: block;</p>
+  </div>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/display" target="_blank" rel="noopener">display: inline</a></p>
+  <div class="demo-variant">
+    <div>
+      <span style="display: inline; background-color: #fde68a;">inline 1</span>
+      <span style="display: inline; background-color: #fde68a;">inline 2</span>
+    </div>
+    <p class="demo-code">display: inline;</p>
+  </div>
+  <p class="demo-note">Inline elements sit side by side on the same line, only as wide as their content.</p>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/display" target="_blank" rel="noopener">display: inline-block</a></p>
+  <div class="demo-variant">
+    <div>
+      <span style="display: inline-block; width: 100px; height: 50px; background-color: #a7f3d0;">a</span>
+      <span style="display: inline-block; width: 100px; height: 50px; background-color: #a7f3d0;">b</span>
+    </div>
+    <p class="demo-code">display: inline-block; width: 100px; height: 50px;</p>
+  </div>
+  <p class="demo-note">Like inline, these sit side by side — but unlike plain inline, width and height are respected.</p>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/display" target="_blank" rel="noopener">display: none</a></p>
+  <p>
+    Right after the code caption below there's a paragraph with <code>display: none</code> — it's
+    in the HTML, but entirely removed from the page, taking up no space at all. Open dev tools and
+    search the Elements panel for the text "you won't see me" to find it.
+  </p>
+  <p class="demo-code">display: none;</p>
+  <p style="display: none;">you won't see me — display: none</p>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/visibility" target="_blank" rel="noopener">visibility: hidden</a></p>
+  <div class="stage">
+    <span>before —</span>
+    <span style="visibility: hidden; background-color: #fca5a5;">this span is hidden</span>
+    <span>— after</span>
+  </div>
+  <p class="demo-code">visibility: hidden;</p>
+  <p class="demo-note">
+    Compare to display: none above: visibility: hidden makes the element invisible but still
+    leaves its space in the layout — notice the gap between "before" and "after".
+  </p>
+</div>
+
+<!-- ===================== 5. Classical Positioning ===================== -->
+<h2>5. Classical Positioning</h2>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/position" target="_blank" rel="noopener">position: relative</a> + <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/top" target="_blank" rel="noopener">top</a>/<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/left" target="_blank" rel="noopener">left</a></p>
+  <div class="stage" style="height: 100px;">
+    <div style="position: relative; top: 20px; left: 30px; width: 120px; padding: 8px; background-color: #bae6fd;">
+      moved 20px down, 30px right from where it would normally sit
+    </div>
+  </div>
+  <p class="demo-code">position: relative; top: 20px; left: 30px;</p>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/position" target="_blank" rel="noopener">position: absolute</a> (inside a relative parent)</p>
+  <div class="stage" style="position: relative; height: 120px;">
+    <div style="position: absolute; top: 10px; right: 10px; padding: 8px; background-color: #fde68a;">
+      pinned to the top-right corner of the dashed box
+    </div>
+  </div>
+  <p class="demo-code">/* on the dashed box */ position: relative;<br>/* on the yellow box */ position: absolute; top: 10px; right: 10px;</p>
+  <p class="demo-note">
+    An absolutely positioned element is placed relative to its nearest ancestor that has
+    position: relative (or absolute/fixed) — here, the dashed "stage" box.
+  </p>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/z-index" target="_blank" rel="noopener">z-index</a></p>
+  <div class="stage" style="position: relative; height: 100px;">
+    <div style="position: absolute; top: 10px; left: 10px; width: 100px; height: 60px; background-color: #93c5fd; z-index: 1;"></div>
+    <div style="position: absolute; top: 30px; left: 50px; width: 100px; height: 60px; background-color: #fca5a5; z-index: 2;"></div>
+  </div>
+  <p class="demo-code">/* blue box */ z-index: 1; &nbsp; /* red box */ z-index: 2;</p>
+  <p class="demo-note">The red box has the higher z-index, so it renders on top of the blue one, even though the blue box comes second in the HTML.</p>
+</div>
+
+<!-- ===================== 6. Modern Layout: Flexbox ===================== -->
+<h2>6. Modern Layout: Flexbox</h2>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/display" target="_blank" rel="noopener">display: flex</a> + <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/flex-direction" target="_blank" rel="noopener">flex-direction: row</a> (default)</p>
+  <div style="display: flex; flex-direction: row; gap: 8px; background-color: #f8fafc; padding: 8px;">
+    <div style="width: 60px; height: 60px; background-color: #93c5fd;"></div>
+    <div style="width: 60px; height: 60px; background-color: #93c5fd;"></div>
+    <div style="width: 60px; height: 60px; background-color: #93c5fd;"></div>
+  </div>
+  <p class="demo-code">display: flex; flex-direction: row;</p>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/flex-direction" target="_blank" rel="noopener">flex-direction: column</a></p>
+  <div style="display: flex; flex-direction: column; gap: 8px; background-color: #f8fafc; padding: 8px; width: 80px;">
+    <div style="height: 40px; background-color: #93c5fd;"></div>
+    <div style="height: 40px; background-color: #93c5fd;"></div>
+    <div style="height: 40px; background-color: #93c5fd;"></div>
+  </div>
+  <p class="demo-code">display: flex; flex-direction: column;</p>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content" target="_blank" rel="noopener">justify-content</a></p>
+  <div style="display: flex; justify-content: space-between; background-color: #f8fafc; padding: 8px;">
+    <div style="width: 50px; height: 40px; background-color: #fde68a;"></div>
+    <div style="width: 50px; height: 40px; background-color: #fde68a;"></div>
+    <div style="width: 50px; height: 40px; background-color: #fde68a;"></div>
+  </div>
+  <p class="demo-code">justify-content: space-between;</p>
+  <p class="demo-note">Pushes items apart along the main (horizontal) axis.</p>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/align-items" target="_blank" rel="noopener">align-items</a></p>
+  <div style="display: flex; align-items: center; background-color: #f8fafc; padding: 8px; height: 100px;">
+    <div style="width: 50px; height: 40px; background-color: #a7f3d0;"></div>
+    <div style="width: 50px; height: 70px; background-color: #a7f3d0;"></div>
+    <div style="width: 50px; height: 30px; background-color: #a7f3d0;"></div>
+  </div>
+  <p class="demo-code">align-items: center;</p>
+  <p class="demo-note">Centers items along the cross (vertical) axis, even though they're different heights.</p>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/gap" target="_blank" rel="noopener">gap</a></p>
+  <div style="display: flex; gap: 24px; background-color: #f8fafc; padding: 8px;">
+    <div style="width: 50px; height: 50px; background-color: #93c5fd;"></div>
+    <div style="width: 50px; height: 50px; background-color: #93c5fd;"></div>
+  </div>
+  <p class="demo-code">gap: 24px;</p>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/flex-grow" target="_blank" rel="noopener">flex-grow</a></p>
+  <div style="display: flex; gap: 8px; background-color: #f8fafc; padding: 8px;">
+    <div style="flex-grow: 1; height: 40px; background-color: #fca5a5;"></div>
+    <div style="flex-grow: 2; height: 40px; background-color: #fca5a5;"></div>
+    <div style="flex-grow: 1; height: 40px; background-color: #fca5a5;"></div>
+  </div>
+  <p class="demo-code">/* left &amp; right */ flex-grow: 1; &nbsp; /* middle */ flex-grow: 2;</p>
+  <p class="demo-note">The middle box has flex-grow: 2, so it claims twice as much of the leftover space as its siblings.</p>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/align-self" target="_blank" rel="noopener">align-self</a></p>
+  <div style="display: flex; align-items: flex-start; background-color: #f8fafc; padding: 8px; height: 100px;">
+    <div style="width: 50px; height: 40px; background-color: #a7f3d0;"></div>
+    <div style="width: 50px; height: 40px; background-color: #a7f3d0; align-self: center;"></div>
+    <div style="width: 50px; height: 40px; background-color: #a7f3d0; align-self: flex-end;"></div>
+  </div>
+  <p class="demo-code">/* container */ align-items: flex-start; &nbsp; /* middle box */ align-self: center; &nbsp; /* last box */ align-self: flex-end;</p>
+  <p class="demo-note">The container aligns everything to the top, but the middle and last box override that individually with align-self.</p>
+</div>
+
+<!-- ===================== 7. Visual Decoration & Polish ===================== -->
+<h2>7. Visual Decoration &amp; Polish</h2>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow" target="_blank" rel="noopener">box-shadow</a></p>
+  <div class="demo-variant">
+    <div style="width: 120px; height: 80px; background-color: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.2); margin: 12px;"></div>
+    <p class="demo-code">box-shadow: 0 4px 6px rgba(0,0,0,0.2);</p>
+  </div>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/text-shadow" target="_blank" rel="noopener">text-shadow</a></p>
+  <div class="demo-variant">
+    <p style="font-size: 28px; color: #0f172a; text-shadow: 0 2px 3px rgba(0,0,0,0.4); margin: 0;">text-shadow example</p>
+    <p class="demo-code">text-shadow: 0 2px 3px rgba(0,0,0,0.4);</p>
+  </div>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/cursor" target="_blank" rel="noopener">cursor</a></p>
+  <div class="demo-variants-row">
+    <div class="demo-variant">
+      <span style="cursor: pointer; background-color: #bae6fd; padding: 2px 6px;">hover me</span>
+      <p class="demo-code">cursor: pointer;</p>
+    </div>
+    <div class="demo-variant">
+      <span style="cursor: not-allowed; background-color: #fca5a5; padding: 2px 6px;">hover me</span>
+      <p class="demo-code">cursor: not-allowed;</p>
+    </div>
+    <div class="demo-variant">
+      <span style="cursor: grab; background-color: #a7f3d0; padding: 2px 6px;">hover me</span>
+      <p class="demo-code">cursor: grab;</p>
+    </div>
+  </div>
+</div>
+
+<div class="demo-item">
+  <p class="demo-label"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/outline" target="_blank" rel="noopener">outline</a></p>
+  <div class="demo-variant">
+    <div style="width: 150px; padding: 8px; outline: 3px solid #3b82f6;">outlined box</div>
+    <p class="demo-code">outline: 3px solid #3b82f6;</p>
+  </div>
+  <p class="demo-note">Unlike border, outline is drawn outside the box and doesn't affect layout — it doesn't push other elements away.</p>
+</div>
+
+</body>
+</html>
