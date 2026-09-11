@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page {
+    size: A4;
+    margin: 14mm 12mm;
+    background-color: #f8fafc;
+    @bottom-right {
+      content: "Page " counter(page) " of " counter(pages);
+      font-size: 8pt;
+      color: #64748b;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    line-height: 1.45;
+    font-size: 9.5pt;
+  }
+
+  .header-card {
+    background-color: #0f172a;
+    color: #ffffff;
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin-bottom: 14px;
+  }
+
+  .header-card h1 {
+    margin: 0 0 4px 0;
+    font-size: 18pt;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: #38bdf8;
+  }
+
+  .header-card p {
+    margin: 0;
+    font-size: 9.5pt;
+    color: #94a3b8;
+  }
+
+  .section-block {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    page-break-inside: avoid;
+  }
+
+  .section-title {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 8px 0;
+    padding-bottom: 4px;
+    border-bottom: 2px solid #e2e8f0;
+    display: block;
+  }
+
+  .section-title span.badge {
+    background-color: #e0f2fe;
+    color: #0284c7;
+    font-size: 7.5pt;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-right: 6px;
+    vertical-align: middle;
+    text-transform: uppercase;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 4px;
+  }
+
+  th {
+    text-align: left;
+    font-size: 8pt;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 4px 8px;
+    border-bottom: 1px solid #cbd5e1;
+  }
+
+  td {
+    padding: 5px 8px;
+    vertical-align: top;
+    font-size: 9pt;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    font-size: 8.5pt;
+    background-color: #f1f5f9;
+    color: #0369a1;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-weight: 600;
+  }
+
+  .desc {
+    color: #334155;
+  }
+
+  .example {
+    color: #64748b;
+    font-size: 8pt;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+</style>
+</head>
+<body>
+
+<div class="header-card">
+  <h1>Fundamental CSS Properties Reference</h1>
+  <p>Essential CSS styling from core document formatting to modern flex layouts (pre-responsive).</p>
+</div>
+
+<!-- 1. The Box Model & Sizing -->
+<div class="section-block">
+  <div class="section-title"><span class="badge">01</span> The Box Model & Dimensions</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 25%;">Property</th>
+        <th style="width: 50%;">Description</th>
+        <th style="width: 25%;">Common Values / Syntax</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>width</code> / <code>height</code></td>
+        <td class="desc">Defines the explicit dimensions of an element's content area.</td>
+        <td class="example">300px, 50%, auto</td>
+      </tr>
+      <tr>
+        <td><code>max-width</code> / <code>min-width</code></td>
+        <td class="desc">Constrains width boundaries; prevents element overflow or collapsing.</td>
+        <td class="example">1200px, 100%, 280px</td>
+      </tr>
+      <tr>
+        <td><code>padding</code></td>
+        <td class="desc">Inner clearance between content and the border (TRBL clockwise).</td>
+        <td class="example">16px, 10px 20px</td>
+      </tr>
+      <tr>
+        <td><code>margin</code></td>
+        <td class="desc">Outer clearance outside the border pushing adjacent elements away.</td>
+        <td class="example">0 auto, 24px</td>
+      </tr>
+      <tr>
+        <td><code>box-sizing</code></td>
+        <td class="desc">Includes padding and border inside the stated width/height calculations.</td>
+        <td class="example">border-box (recommended)</td>
+      </tr>
+      <tr>
+        <td><code>border</code></td>
+        <td class="desc">Shorthand for width, line style, and color perimeter around the element.</td>
+        <td class="example">1px solid #e2e8f0</td>
+      </tr>
+      <tr>
+        <td><code>border-radius</code></td>
+        <td class="desc">Rounds container corners; allows circular shapes with 50%.</td>
+        <td class="example">4px, 8px, 50%</td>
+      </tr>
+      <tr>
+        <td><code>overflow</code></td>
+        <td class="desc">Handles content spilling past dimensions: visible, hidden, scroll, auto.</td>
+        <td class="example">hidden, auto</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 2. Typography & Text Formatting -->
+<div class="section-block">
+  <div class="section-title"><span class="badge">02</span> Typography & Text Formatting</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 25%;">Property</th>
+        <th style="width: 50%;">Description</th>
+        <th style="width: 25%;">Common Values / Syntax</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>font-family</code></td>
+        <td class="desc">Specifies typeface stack and generic fallbacks.</td>
+        <td class="example">'Inter', sans-serif</td>
+      </tr>
+      <tr>
+        <td><code>font-size</code></td>
+        <td class="desc">Sets the text scale using absolute or relative units.</td>
+        <td class="example">16px, 1rem, 1.25em</td>
+      </tr>
+      <tr>
+        <td><code>font-weight</code></td>
+        <td class="desc">Controls character thickness from ultra-thin to heavy bold.</td>
+        <td class="example">400 (normal), 600, 700 (bold)</td>
+      </tr>
+      <tr>
+        <td><code>line-height</code></td>
+        <td class="desc">Controls vertical distance between baselines for readability.</td>
+        <td class="example">1.5, 1.6, 24px</td>
+      </tr>
+      <tr>
+        <td><code>text-align</code></td>
+        <td class="desc">Horizontal alignment of inline content inside block containers.</td>
+        <td class="example">left, center, right, justify</td>
+      </tr>
+      <tr>
+        <td><code>text-decoration</code></td>
+        <td class="desc">Adds or suppresses text lines (underlines on links, strikethroughs).</td>
+        <td class="example">none, underline</td>
+      </tr>
+      <tr>
+        <td><code>text-transform</code></td>
+        <td class="desc">Transforms text casing dynamically without editing markup.</td>
+        <td class="example">uppercase, capitalize</td>
+      </tr>
+      <tr>
+        <td><code>letter-spacing</code></td>
+        <td class="desc">Adjusts tracking/spacing between individual characters.</td>
+        <td class="example">0.5px, -0.02em</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 3. Colors & Backgrounds -->
+<div class="section-block">
+  <div class="section-title"><span class="badge">03</span> Colors & Backgrounds</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 25%;">Property</th>
+        <th style="width: 50%;">Description</th>
+        <th style="width: 25%;">Common Values / Syntax</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>color</code></td>
+        <td class="desc">Sets the foreground text and icon color.</td>
+        <td class="example">#0f172a, rgba(0,0,0,0.8)</td>
+      </tr>
+      <tr>
+        <td><code>background-color</code></td>
+        <td class="desc">Fills the element background area with a solid color.</td>
+        <td class="example">#ffffff, transparent</td>
+      </tr>
+      <tr>
+        <td><code>background-image</code></td>
+        <td class="desc">Sets graphic assets or gradients behind content.</td>
+        <td class="example">url('...'), linear-gradient()</td>
+      </tr>
+      <tr>
+        <td><code>background-size</code></td>
+        <td class="desc">Determines image scaling across the container.</td>
+        <td class="example">cover, contain, auto</td>
+      </tr>
+      <tr>
+        <td><code>background-repeat</code></td>
+        <td class="desc">Controls whether background tiles horizontally and vertically.</td>
+        <td class="example">no-repeat, repeat-x</td>
+      </tr>
+      <tr>
+        <td><code>background-position</code></td>
+        <td class="desc">Sets the starting origin of background artwork.</td>
+        <td class="example">center, top left</td>
+      </tr>
+      <tr>
+        <td><code>opacity</code></td>
+        <td class="desc">Sets transparency for the entire element, including all children.</td>
+        <td class="example">0.85, 0 (invisible), 1</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 4. Display & Document Flow -->
+<div class="section-block">
+  <div class="section-title"><span class="badge">04</span> Display & Document Flow</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 25%;">Property</th>
+        <th style="width: 50%;">Description</th>
+        <th style="width: 25%;">Common Values / Syntax</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>display: block</code></td>
+        <td class="desc">Breaks onto a new line, consumes full container width.</td>
+        <td class="example">&lt;div&gt;, &lt;p&gt;, &lt;section&gt;</td>
+      </tr>
+      <tr>
+        <td><code>display: inline</code></td>
+        <td class="desc">Flows alongside text; ignores vertical dimensions/margins.</td>
+        <td class="example">&lt;span&gt;, &lt;a&gt;, &lt;strong&gt;</td>
+      </tr>
+      <tr>
+        <td><code>display: inline-block</code></td>
+        <td class="desc">Flows inline with text while respecting width, height, and margins.</td>
+        <td class="example">buttons, inline chips</td>
+      </tr>
+      <tr>
+        <td><code>display: none</code></td>
+        <td class="desc">Removes element completely from rendering and accessibility tree.</td>
+        <td class="example">display: none;</td>
+      </tr>
+      <tr>
+        <td><code>visibility</code></td>
+        <td class="desc">Hides element while keeping its exact physical space in layout flow.</td>
+        <td class="example">hidden, visible</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 5. Classical Positioning -->
+<div class="section-block">
+  <div class="section-title"><span class="badge">05</span> Classical Positioning</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 25%;">Property</th>
+        <th style="width: 50%;">Description</th>
+        <th style="width: 25%;">Common Values / Syntax</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>position</code></td>
+        <td class="desc">Alters positioning scheme: static, relative, absolute, fixed, sticky.</td>
+        <td class="example">relative, absolute, fixed</td>
+      </tr>
+      <tr>
+        <td><code>top / right / bottom / left</code></td>
+        <td class="desc">Offset coordinates from flow or nearest positioned parent.</td>
+        <td class="example">top: 0; right: 10px;</td>
+      </tr>
+      <tr>
+        <td><code>z-index</code></td>
+        <td class="desc">Defines 3D stacking order along the z-axis for positioned items.</td>
+        <td class="example">10, 100, 999</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 6. Modern Layout: Flexbox -->
+<div class="section-block">
+  <div class="section-title"><span class="badge">06</span> Modern Layout: Flexbox</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 25%;">Property</th>
+        <th style="width: 50%;">Description</th>
+        <th style="width: 25%;">Common Values / Syntax</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>display: flex</code></td>
+        <td class="desc">Enables flex formatting context on all direct child elements.</td>
+        <td class="example">display: flex;</td>
+      </tr>
+      <tr>
+        <td><code>flex-direction</code></td>
+        <td class="desc">Establishes main axis flow direction for flex items.</td>
+        <td class="example">row, column, row-reverse</td>
+      </tr>
+      <tr>
+        <td><code>justify-content</code></td>
+        <td class="desc">Aligns child items along the main axis.</td>
+        <td class="example">center, space-between, start</td>
+      </tr>
+      <tr>
+        <td><code>align-items</code></td>
+        <td class="desc">Aligns child items along the cross axis (perpendicular).</td>
+        <td class="example">center, stretch, flex-start</td>
+      </tr>
+      <tr>
+        <td><code>gap</code></td>
+        <td class="desc">Sets explicit gutter spacing between flex items without margin hacks.</td>
+        <td class="example">12px, 1.5rem, 8px 16px</td>
+      </tr>
+      <tr>
+        <td><code>flex-grow / flex-shrink</code></td>
+        <td class="desc">Determines child element growth or compression factor when space varies.</td>
+        <td class="example">1, 0</td>
+      </tr>
+      <tr>
+        <td><code>align-self</code></td>
+        <td class="desc">Overrides parent align-items alignment for a specific single flex item.</td>
+        <td class="example">flex-end, center</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 7. Visual Decoration & Polish -->
+<div class="section-block">
+  <div class="section-title"><span class="badge">07</span> Visual Decoration & Polish</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 25%;">Property</th>
+        <th style="width: 50%;">Description</th>
+        <th style="width: 25%;">Common Values / Syntax</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>box-shadow</code></td>
+        <td class="desc">Casts drop shadows and elevation depth onto element frames.</td>
+        <td class="example">0 4px 6px rgba(0,0,0,0.1)</td>
+      </tr>
+      <tr>
+        <td><code>text-shadow</code></td>
+        <td class="desc">Draws subtle shadows behind text characters.</td>
+        <td class="example">0 1px 2px rgba(0,0,0,0.2)</td>
+      </tr>
+      <tr>
+        <td><code>cursor</code></td>
+        <td class="desc">Changes pointer icon to signal interaction or disabled states.</td>
+        <td class="example">pointer, not-allowed, grab</td>
+      </tr>
+      <tr>
+        <td><code>outline</code></td>
+        <td class="desc">Draws non-layout-shifting rings around focused interactive items.</td>
+        <td class="example">2px solid #3b82f6</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
