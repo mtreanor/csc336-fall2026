@@ -1,0 +1,78 @@
+<html>
+    <head>
+        <title>Adventure Game Demo</title>
+    </head>
+    <body>
+        <!--
+            The whole game lives inside this one empty div. Everything the player sees
+            gets built by JavaScript and put in here. There is no room content written
+            in the HTML at all.
+        -->
+        <div id="roomRoot"></div>
+
+        <script>
+            // Grab the container once, up here, so every function can use it.
+            let roomRootDiv = document.querySelector("#roomRoot");
+
+            // The whole world is one object. The keys ("entry", "classRoom") are the
+            // room ids, and each value is an object describing that room.
+            // linkedRooms is an array of the ids of the rooms you can get to from here,
+            // which is how the rooms connect to each other.
+            let rooms = {
+                entry: {
+                    name: "Entry Room",
+                    description: "This is where the game starts!",
+                    linkedRooms: ["classRoom"]
+                },
+                classRoom: {
+                    name: "Class Room",
+                    description: "Now we are in the class room",
+                    linkedRooms: ["entry"]
+                }
+            }
+
+            // Where the player starts. rooms["entry"] looks up the entry room object
+            // by its key, the same way rooms.entry would.
+            let currentRoom = rooms["entry"];
+
+            // Runs whenever one of the navigation buttons (created below) is clicked. The event object e
+            // has a target property, which is the exact button that was clicked. Since we
+            // put the room's id in the button's text, e.target.innerHTML gives us the id
+            // of the room we are going to, and rooms[...] turns that id into the room object.
+            function navButtonClicked(e) {
+                console.log(e.target.innerHTML);
+                currentRoom = rooms[e.target.innerHTML];
+                visualizeRoom(currentRoom);
+            }
+
+            // Takes one room object and draws it: a heading, a paragraph, and one button
+            // per exit. Same create / set content / append pattern from the pokemon example.
+            function visualizeRoom(room) {
+                // Clear out whatever room was previously visualized
+                roomRootDiv.innerHTML = "";
+
+                let roomTitle = document.createElement("h1");
+                roomTitle.innerHTML = room.name;
+                roomRootDiv.append(roomTitle);
+
+                let descriptionP = document.createElement("p");
+                descriptionP.innerHTML = room.description;
+                roomRootDiv.append(descriptionP);
+
+                // One button per linked room. The button's text is the room id, which is
+                // what navButtonClicked reads back out later.
+                for (let i = 0; i < room.linkedRooms.length; i++) {
+                    let navButton = document.createElement("button");
+                    navButton.innerHTML = room.linkedRooms[i];
+                    navButton.addEventListener("click", navButtonClicked);
+                    // Note the missing parentheses: we hand the function itself to
+                    // addEventListener, we do not call it here.
+                    roomRootDiv.append(navButton);
+                }
+            }
+
+            // Nothing is on the screen until we draw the first room.
+            visualizeRoom(currentRoom);
+        </script>
+    </body>
+</html>

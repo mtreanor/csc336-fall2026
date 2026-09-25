@@ -1,0 +1,88 @@
+<html>
+    <head>
+        <title>Buttons and Input Demo</title>
+    </head>
+    <body>
+        <!--
+            buttonDataDiv is where we report the last button that was clicked, and
+            buttonsDiv is the container the generated buttons get built into. Both
+            start empty: JavaScript fills them in. The button and input below them
+            are the two elements on this page we typed out by hand.
+        -->
+        <div id="buttonDataDiv"></div>
+
+        <div id="buttonsDiv"></div>
+
+        <!--
+            This is the one I could not get working in class.
+
+            It is the other way to attach a handler: an onclick attribute written
+            directly in the HTML, instead of addEventListener down in the script.
+
+            The catch is that it has to be the full word "event" in the parentheses.
+            Inside an onclick attribute the browser gives you one special variable, and
+            its name is exactly "event". Abbreviating it, onclick="buttonClick(e)", is
+            what broke in class: there is no variable named e, so the browser never even
+            gets as far as calling the function. Check the console and you will see a
+            ReferenceError (Chrome says "e is not defined", Safari says "Can't find
+            variable: e").
+
+            Confusingly, the function it calls does name its parameter e. That is fine.
+            The name in the parentheses here has to be "event" because the browser chose
+            that name for us; the name in the function definition is ours to pick, which
+            is why addEventListener callbacks can call it whatever they want.
+        -->
+        <button onclick="buttonClick(event)">Inline onclick</button>
+
+        <input id="inputElement" type="text">
+
+        <script>
+            // The data we want buttons for. Add a sixth string here and a sixth
+            // button shows up, with no other changes: that is the point of building
+            // the page from data instead of typing out five button tags.
+            let buttonData = ["One", "Two", "Three", "Four", "Five"];
+
+            // Get references to DOM elements
+            // Doing this once up here means the functions below can use them without
+            // looking them up again every time.
+            let buttonDataDiv = document.querySelector("#buttonDataDiv");
+            let buttonsDiv = document.querySelector("#buttonsDiv");
+            let inputElement = document.querySelector("#inputElement");
+
+            // Define the event listener for the buttons
+            // Every button on the page shares this one function: the five built in the
+            // loop below, and the hand-written onclick button up in the HTML. The event
+            // object e tells us which one was actually clicked: e.target is that specific
+            // button, so e.target.innerHTML is its text.
+            function buttonClick(e) {
+                console.log(e.target.innerHTML);
+                buttonDataDiv.innerHTML = e.target.innerHTML;
+
+                // Get the current value of the input text area, and check it against
+                // a password. Note that .value is read here, inside the click handler,
+                // not up top: we want whatever is in the box at the moment of the click,
+                // not whatever was there when the page loaded.
+                // String(...) and .toLowerCase() make the comparison case insensitive,
+                // so "Password" and "PASSWORD" both count as correct.
+                let notCaseSenstive = (String)(inputElement.value).toLowerCase();
+                if (notCaseSenstive === "password") {
+                    console.log("Correct!");
+                } else {
+                    console.log("Not correct!");
+                }
+            }
+
+            // One trip through the array per button: make it, label it with the string
+            // at this index, attach the shared click handler, then append it so it
+            // actually appears on the page.
+            for (let i = 0; i < buttonData.length; i++) {
+                let buttonObj = document.createElement("button");
+                buttonObj.innerHTML = buttonData[i];
+                buttonObj.addEventListener("click", buttonClick);
+                buttonsDiv.append(buttonObj);
+            }
+
+
+        </script>
+    </body>
+</html>
