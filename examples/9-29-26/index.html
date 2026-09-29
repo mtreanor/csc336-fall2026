@@ -1,0 +1,14 @@
+<html>
+    <head>
+        <!--
+            defer means the browser waits until the whole page is parsed
+            before it runs script.js, even though the tag is sitting up
+            here in the head. That's why querySelector("#root") in the
+            script can rely on the div below already existing.
+        -->
+        <script src="./script.js" defer></script>
+    </head>
+    <body>
+        <div id="root"></div>
+    </body>
+</html>
