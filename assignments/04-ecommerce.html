@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Assignment 4: E-Commerce Front End</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        h2 {
+            margin-top: 40px;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 4px;
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        code {
+            background-color: #f0f0f0;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        pre {
+            background-color: #f0f0f0;
+            padding: 12px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Assignment 4: E-Commerce Front End</h1>
+
+    <p><strong>Due:</strong> Friday, 10/9/26, before class.</p>
+
+    <h2>Goal</h2>
+    <p>
+        Build the front end of an online store. Not sure what e-commerce is?
+        <a href="https://youtu.be/on5NjoFWw0Q?t=15" target="_blank">This video from the early days of the web</a> explains it
+        better than I ever could.
+    </p>
+    <p>
+        Your store sells a set of products (sneakers, houseplants, used spaceships, whatever you want). Each
+        product shows up as a "card" with a name, a price, and a description, rendered from one array of
+        objects using the same data-driven pattern from the Pokemon demo and the adventure game assignment.
+        Shoppers can add a single product to their cart, or check off several and add them all at once. The
+        cart lives on the right-hand side of the page and updates as things go in.
+    </p>
+    <p>
+        The store is the theme, but the real point is the tools: <code>forEach</code>, <code>filter</code>,
+        <code>sort</code>, and <code>map</code>, anonymous functions handed to them and to
+        <code>addEventListener</code>.
+    </p>
+    <p>
+        NOTE: We haven't covered much of what we would need to fully simulate an online shopping experience
+        (e.g. no persistent data storage, no form submissions, no servers). This assignment is about creating
+        the front end (the part of the store that runs in the shopper's browser).
+        Refresh the page and the cart empties.
+    </p>
+
+    <h2>Requirements</h2>
+    <ol>
+        <li>
+            <strong>A product catalog</strong><br>
+            One array of at least 6 product objects. Each product needs a <code>name</code>, a numeric
+            <code>price</code>, a <code>description</code>, an <code>image</code>, and a <code>category</code> (a string you can
+            filter by, like "shoes" or "flowers").
+        </li>
+        <li>
+            <strong>One render function, called with <code>forEach</code></strong><br>
+            A function that takes one product and draws a card for it with
+            <code>createElement</code>/<code>append</code>, same pattern as the Pokemon card demo. Each card
+            shows the name, price, and description. Call it once per product with <code>.forEach()</code>,
+            not a hand-typed call per product and not a <code>for</code> loop.
+        </li>
+        <li>
+            <strong>An "Add to Cart" button on every card</strong><br>
+            Each card gets its own button that adds that product to the cart. Since the button is created
+            inside your render function, hand <code>addEventListener</code> an anonymous function right there,
+            one that already knows which product it belongs to.
+        </li>
+        <li>
+            <strong>Select several, add them all</strong><br>
+            Give each card a checkbox. Checking it marks that product "selected," and the card needs a visual
+            change to show it (a highlighted border, a background color, whatever reads clearly),
+            <strong>made only with a CSS class</strong>. Toggle it with <code>classList</code>; the look itself
+            lives in <code>style.css</code>, not inline styles set from JS.
+            <br><br>
+            Add a separate "Add Selected to Cart" button that adds every checked product to the cart at once
+            (use <code>.filter()</code> to find them). This button has to <strong>change dynamically</strong>
+            as checkboxes change: disabled when nothing is selected, and showing how many items it will add
+            when one or more are, e.g. "Add 3 Items to Cart." Clear the checkboxes after adding.
+        </li>
+        <li>
+            <strong>A cart on the right-hand side</strong><br>
+            The cart sits to the right of the product list (use CSS for the layout: flexbox or grid, your
+            choice). It lists each item in the cart with its price, plus a total. Use <code>.map()</code> to
+            pull the prices out of the cart items, then add them up into a total like
+            "Total: $54.97 (3 items)." The cart and total re-render every time something is added.
+        </li>
+        <li>
+            <strong>A category filter and a sort-by dropdown</strong><br>
+            A button (or buttons, or a <code>&lt;select&gt;</code>) that uses <code>.filter()</code> to show only
+            one category of products, plus a way to show them all again.
+        </li>
+    </ol>
+
+
+    <h2 id="folder-structure">File and Folder Setup</h2>
+    <p>
+        Same rules as before: folder and file names must match exactly. This assignment needs
+        <strong>three</strong> files, all inside a new <code>04-ecommerce</code> folder:
+    </p>
+    <pre><code>csc336-fall2026/
+└── assignments/
+    └── 04-ecommerce/
+        ├── index.html
+        ├── style.css
+        └── script.js</code></pre>
+    <p>
+        Once pushed, your assignment will be visible at:<br>
+        <code>https://&lt;your-username&gt;.github.io/csc336-fall2026/assignments/04-ecommerce/</code>
+    </p>
+
+    <h2>A Note on Generative AI</h2>
+    <p>
+        Do not use ChatGPT, Copilot, Claude, or any other generative AI tool to write any part of this
+        assignment. The whole point is building real fluency with <code>map</code>/<code>filter</code>/
+        <code>sort</code>/callbacks yourself. Whatever you do, remember that your goal should be to undertand
+        100% of the code that you turn in.
+    </p>
+
+    <h2>What to Submit</h2>
+    <p>
+        Nothing to submit directly. Your assignment should be publicly available at the address in
+        <a href="#folder-structure">File and Folder Setup</a> above once you've committed and pushed.
+    </p>
+
+</body>
+
+</html>
