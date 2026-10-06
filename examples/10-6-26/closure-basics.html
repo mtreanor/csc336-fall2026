@@ -1,0 +1,43 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <script>
+            // Open the console to see the output.
+            //
+            // A closure: a function remembers the variables that were around
+            // when it was created, even after the function that created it
+            // has finished running.
+
+            function printCount(name) {
+                // count is a local variable. Normally it would disappear as
+                // soon as printCount returns...
+                let count = 0;
+
+                // ...but print uses it (and name), so print holds on to them.
+                function print() {
+                    console.log(name + ": " + count);
+                    count += 1;
+                }
+
+                // Hand back the function itself (no parentheses), not the
+                // result of calling it.
+                return print;
+            }
+
+            // printCount("A") is done after this line, but printA still
+            // remembers its own name ("A") and its own count.
+            let printA = printCount("A");
+            printA(); // A: 0
+            printA(); // A: 1
+            printA(); // A: 2
+
+            // A second call makes a brand new count, starting at 0 again.
+            // printA and printB don't share.
+            let printB = printCount("B");
+            printB(); // B: 0
+            printA(); // A: 3, picks up right where it left off
+        </script>
+    </body>
+</html>
