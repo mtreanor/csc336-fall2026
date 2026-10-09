@@ -44,15 +44,14 @@
 </head>
 
 <body>
-    <h1>Assignment 5: E-commerce Store Inventory</h1>
+    <h1>Assignment 5: Store Inventory</h1>
 
     <p><strong>Due:</strong> Tuesday, 10/20/26, before class.</p>
 
     <h2>Goal</h2>
     <p>
         Assignment 4 was the shopper's side of your store. This one is the shop owner's side: an
-        <strong>"Add New Product"</strong> form that puts new products into your catalog. And this time
-        they stick around. Your products are saved in <code>localStorage</code>, so refreshing the page
+        <strong>"Add New Product"</strong> form that puts new products into your catalog. Your products are saved in <code>localStorage</code>, so refreshing the page
         doesn't lose them.
     </p>
     <p>
@@ -64,8 +63,7 @@
     <h2 id="getting-started">Getting Started</h2>
     <p>
         <strong>Copy</strong> your whole <code>04-ecommerce</code> folder into a new folder named
-        <code>05-inventory-tool</code>, and do all of your work there. Don't change
-        <code>04-ecommerce</code>, it needs to stay exactly as it was when you turned it in.
+        <code>05-inventory-tool</code>, and do all of your work there.
     </p>
 
     <h2>Requirements</h2>
@@ -102,7 +100,7 @@
         <li>
             <strong>One validation rule of your own</strong><br>
             Pick one rule the browser can't check for you, and enforce it in your submit handler. If the rule
-            is broken, don't add the product, and show a message on the page (not an <code>alert</code>)
+            is broken, don't add the product, and show a message on the page
             saying what's wrong. Some ideas: no two products with the same name, a description of at least
             20 characters, a price under some maximum.
         </li>
@@ -137,55 +135,8 @@
             still say <code>price</code>. Click Reset Store whenever you change the shape of a product.
         </li>
         <li>
-            <strong>Don't save checkbox state.</strong> If your Assignment 4 code marks products with something
-            like <code>selected: true</code>, that gets saved too, and products come back already checked
-            after a refresh. Clear it before saving, or set every product back to <code>false</code> when
-            the page loads.
-        </li>
-        <li>
             <strong>Seeing what's saved:</strong> open DevTools, go to the Application tab, and look under
             Local Storage. You can see (and delete) exactly what your page saved.
-        </li>
-    </ul>
-
-    <h2 id="challenges">Challenges</h2>
-    <p>
-        Not required: the requirements above are a complete assignment. Challenges are how you go beyond
-        it. One that's finished and working beats several that are half-wired.
-    </p>
-    <ul>
-        <li>
-            <strong>Delete a product</strong><br>
-            A delete button on each card. <code>.filter()</code> is a clean way to build a new array without
-            it. Don't forget to save afterward.
-        </li>
-        <li>
-            <strong>Edit a product</strong><br>
-            An edit button on each card that fills the form with that product's values. Saving should change
-            the existing product, not add a new one. (A closure in your render function already knows which
-            product the button belongs to.)
-        </li>
-        <li>
-            <strong>Save the cart too</strong><br>
-            Right now a refresh still empties the cart. Save it in <code>localStorage</code> under its own key.
-            Watch out: after a trip through JSON, cart items are <em>copies</em> of your products, not the same
-            objects, so <code>===</code> comparisons between them stop working. Saving just each product's
-            name in the cart, and looking the product back up when the page loads, avoids that.
-        </li>
-        <li>
-            <strong>Live preview</strong><br>
-            Show what the new product's card will look like, updating as the user types. The
-            <code>"input"</code> event fires on every keystroke.
-        </li>
-        <li>
-            <strong>Upload an image instead of a URL</strong><br>
-            Use <code>&lt;input type="file"&gt;</code> and <code>FileReader</code>'s
-            <code>readAsDataURL</code> to turn a picture into a string you can save. Keep the images small:
-            <code>localStorage</code> only holds about 5 MB.
-        </li>
-        <li>
-            <strong>Export the catalog</strong><br>
-            A button that downloads your products as a <code>.json</code> file.
         </li>
     </ul>
 
@@ -196,7 +147,7 @@
     </p>
     <pre><code>csc336-fall2026/
 └── assignments/
-    ├── 04-ecommerce/        (unchanged)
+    ├── 04-ecommerce/        
     └── 05-inventory-tool/
         ├── index.html
         ├── style.css
