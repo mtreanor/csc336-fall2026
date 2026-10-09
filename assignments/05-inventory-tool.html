@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Assignment 5: E-commerce Store Inventory</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        h2 {
+            margin-top: 40px;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 4px;
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        code {
+            background-color: #f0f0f0;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        pre {
+            background-color: #f0f0f0;
+            padding: 12px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Assignment 5: E-commerce Store Inventory</h1>
+
+    <p><strong>Due:</strong> Tuesday, 10/20/26, before class.</p>
+
+    <h2>Goal</h2>
+    <p>
+        Assignment 4 was the shopper's side of your store. This one is the shop owner's side: an
+        <strong>"Add New Product"</strong> form that puts new products into your catalog. And this time
+        they stick around. Your products are saved in <code>localStorage</code>, so refreshing the page
+        doesn't lose them.
+    </p>
+    <p>
+        You're building on your own Assignment 4 code, using what we covered on 10/9: forms,
+        <code>preventDefault</code>, turning form fields into an object, and saving data with
+        <code>JSON.stringify</code>/<code>JSON.parse</code> and <code>localStorage</code>.
+    </p>
+
+    <h2 id="getting-started">Getting Started</h2>
+    <p>
+        <strong>Copy</strong> your whole <code>04-ecommerce</code> folder into a new folder named
+        <code>05-inventory-tool</code>, and do all of your work there. Don't change
+        <code>04-ecommerce</code>, it needs to stay exactly as it was when you turned it in.
+    </p>
+
+    <h2>Requirements</h2>
+    <ol>
+        <li>
+            <strong>An "Add New Product" form</strong><br>
+            A <code>&lt;form&gt;</code> somewhere on the page with a field for every property your products
+            have:
+            <ul>
+                <li>name: a text input</li>
+                <li>price: a number input (use <code>min</code> and <code>step="0.01"</code> so cents work)</li>
+                <li>description: a <code>&lt;textarea&gt;</code></li>
+                <li>category: a <code>&lt;select&gt;</code> with your store's categories</li>
+                <li>image: a URL input (<code>type="url"</code>) for a link to a picture</li>
+            </ul>
+            Every field should be <code>required</code>, so the browser won't let the form submit with
+            anything missing.
+        </li>
+        <li>
+            <strong>Submitting builds a product</strong><br>
+            Listen for the form's <code>"submit"</code> event and call <code>event.preventDefault()</code> so
+            the page doesn't reload. Read each field, build a new product object with
+            <strong>the same properties as your existing products</strong>, and <code>push</code> it onto your
+            products array. Remember that <code>.value</code> is always a string, even on a number input:
+            the price needs to be a real number (use <code>Number()</code>), or your cart total will break.
+            Clear the form after a product is added.
+        </li>
+        <li>
+            <strong>New products are real products</strong><br>
+            A new product shows up in the catalog right away, and it works with everything from Assignment 4:
+            the category filter (and sorting, if your store has it), its own "Add to Cart" button, and the checkboxes for "Add
+            Selected." If it only half works, check that its object really matches the shape of the others.
+        </li>
+        <li>
+            <strong>One validation rule of your own</strong><br>
+            Pick one rule the browser can't check for you, and enforce it in your submit handler. If the rule
+            is broken, don't add the product, and show a message on the page (not an <code>alert</code>)
+            saying what's wrong. Some ideas: no two products with the same name, a description of at least
+            20 characters, a price under some maximum.
+        </li>
+        <li>
+            <strong>Products saved in <code>localStorage</code></strong><br>
+            Save your products array every time it changes (<code>JSON.stringify</code>, then
+            <code>localStorage.setItem</code>), and load it when the page starts
+            (<code>localStorage.getItem</code>, then <code>JSON.parse</code>). The very first time someone
+            visits, nothing has been saved yet and <code>getItem</code> gives back <code>null</code>. In that
+            case, use your starter products from Assignment 4. Refresh the page after adding a product: it
+            should still be there.
+        </li>
+        <li>
+            <strong>A "Reset Store" button</strong><br>
+            A button that clears your saved products (<code>localStorage.removeItem</code>) and puts the
+            catalog back to your starter products. You'll want this while testing, and whoever grades your
+            assignment will use it too.
+        </li>
+    </ol>
+
+    <h2>Things That Will Trip You Up</h2>
+    <ul>
+        <li>
+            <strong>Whoever grades this is using a different browser.</strong> <code>localStorage</code> lives
+            in one browser on one computer, so the products you added won't be there for anyone else. They'll
+            see your starter products and add their own. Make sure the starter catalog still looks like a
+            real store.
+        </li>
+        <li>
+            <strong>Changing your product shape breaks saved data.</strong> If you rename a property (say,
+            <code>price</code> to <code>cost</code>) after you've already saved products, the old saved ones
+            still say <code>price</code>. Click Reset Store whenever you change the shape of a product.
+        </li>
+        <li>
+            <strong>Don't save checkbox state.</strong> If your Assignment 4 code marks products with something
+            like <code>selected: true</code>, that gets saved too, and products come back already checked
+            after a refresh. Clear it before saving, or set every product back to <code>false</code> when
+            the page loads.
+        </li>
+        <li>
+            <strong>Seeing what's saved:</strong> open DevTools, go to the Application tab, and look under
+            Local Storage. You can see (and delete) exactly what your page saved.
+        </li>
+    </ul>
+
+    <h2 id="challenges">Challenges</h2>
+    <p>
+        Not required: the requirements above are a complete assignment. Challenges are how you go beyond
+        it. One that's finished and working beats several that are half-wired.
+    </p>
+    <ul>
+        <li>
+            <strong>Delete a product</strong><br>
+            A delete button on each card. <code>.filter()</code> is a clean way to build a new array without
+            it. Don't forget to save afterward.
+        </li>
+        <li>
+            <strong>Edit a product</strong><br>
+            An edit button on each card that fills the form with that product's values. Saving should change
+            the existing product, not add a new one. (A closure in your render function already knows which
+            product the button belongs to.)
+        </li>
+        <li>
+            <strong>Save the cart too</strong><br>
+            Right now a refresh still empties the cart. Save it in <code>localStorage</code> under its own key.
+            Watch out: after a trip through JSON, cart items are <em>copies</em> of your products, not the same
+            objects, so <code>===</code> comparisons between them stop working. Saving just each product's
+            name in the cart, and looking the product back up when the page loads, avoids that.
+        </li>
+        <li>
+            <strong>Live preview</strong><br>
+            Show what the new product's card will look like, updating as the user types. The
+            <code>"input"</code> event fires on every keystroke.
+        </li>
+        <li>
+            <strong>Upload an image instead of a URL</strong><br>
+            Use <code>&lt;input type="file"&gt;</code> and <code>FileReader</code>'s
+            <code>readAsDataURL</code> to turn a picture into a string you can save. Keep the images small:
+            <code>localStorage</code> only holds about 5 MB.
+        </li>
+        <li>
+            <strong>Export the catalog</strong><br>
+            A button that downloads your products as a <code>.json</code> file.
+        </li>
+    </ul>
+
+    <h2 id="folder-structure">File and Folder Setup</h2>
+    <p>
+        Same rules as before: folder and file names must match exactly. Your files go in the new
+        <code>05-inventory-tool</code> folder:
+    </p>
+    <pre><code>csc336-fall2026/
+└── assignments/
+    ├── 04-ecommerce/        (unchanged)
+    └── 05-inventory-tool/
+        ├── index.html
+        ├── style.css
+        └── script.js</code></pre>
+    <p>
+        Once pushed, your assignment will be visible at:<br>
+        <code>https://&lt;your-username&gt;.github.io/csc336-fall2026/assignments/05-inventory-tool/</code>
+    </p>
+
+    <h2>A Note on Generative AI</h2>
+    <p>
+        Do not use ChatGPT, Copilot, Claude, or any other generative AI tool to write any part of this
+        assignment. Whatever you do, remember that your goal should be to understand 100% of the code that
+        you turn in.
+    </p>
+
+    <h2>What to Submit</h2>
+    <p>
+        Nothing to submit directly. Your assignment should be publicly available at the address in
+        <a href="#folder-structure">File and Folder Setup</a> above once you've committed and pushed.
+    </p>
+
+</body>
+
+</html>
