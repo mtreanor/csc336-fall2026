@@ -1,0 +1,108 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <!-- The list of users gets drawn in here by updateUserList. -->
+        <div id="currentUsersDiv"></div>
+
+        <div id="addUserDiv">
+            <!--
+                A form, instead of a plain input and button, gets us two things
+                for free: pressing Enter submits it, and we get a "submit" event
+                to listen for.
+            -->
+            <form id="userDataForm">
+                <input id="nameInputField" type="text" placeholder="Add name...">
+                <input type="submit">
+            </form>
+        </div>
+
+
+        <script>
+            // All of our data lives in this one array of strings, e.g.
+            // ["Mike", "Buddy", "Mike2"]. The page is always drawn from it.
+            let userData = [];
+
+            let userForm = document.querySelector("#userDataForm");
+            let nameInputField = document.querySelector("#nameInputField");
+            let currentUsersDiv = document.querySelector("#currentUsersDiv");
+
+            // localStorage works like a dictionary: we save a value under a
+            // name (the "key") and look it up later by that same name.
+            // Keeping the key in one variable means we can't misspell it in
+            // one place and not the other.
+            let localStorageKey = "users";
+
+            // DOMContentLoaded fires once the browser has finished reading
+            // the whole HTML page. This is when we load any saved data and
+            // draw it. (Since this script is already at the bottom of the
+            // body, the elements above exist either way, but this is a
+            // common, safe place to put "start up" code.)
+            document.addEventListener('DOMContentLoaded', (event) => {
+                // getItem hands back the saved STRING from localStorage
+                let localStorageData = localStorage.getItem(localStorageKey);
+                console.log(localStorageData); // String!
+
+                // Only parse if there's something to parse. Without this
+                // check, the first visit turns userData into null, and then
+                // forEach and push both crash.
+                if (localStorageData !== null) {
+                    // Parse the string of the data back into js data
+                    userData = JSON.parse(localStorageData);
+                }
+                console.log(userData);
+                updateUserList(userData);
+            });
+
+            // "submit" fires when the submit button is clicked or Enter is
+            // pressed in the text field.
+            userForm.addEventListener("submit", (event) => {
+                // By default, submitting a form reloads the page (the old
+                // way of sending form data to a server). That would wipe out
+                // everything, so we tell the browser not to.
+                event.preventDefault();
+
+                // Add whatever was typed to our data, then empty the field
+                // so it's ready for the next name.
+                userData.push(nameInputField.value);
+                nameInputField.value = "";
+                // console.log(userData);
+
+                // The data changed, so redraw the page
+                updateUserList(userData);
+            });
+
+            // Draws the list from the data, then saves the data. Called on
+            // page load and after every new user. Same "clear it and redraw
+            // everything" pattern as the album and Pokemon examples.
+            function updateUserList(data) {
+                // Throw away the old list completely.
+                currentUsersDiv.innerHTML = "";
+
+                // Build a fresh <ul> and put one <li> in it per user.
+                let userListElement = document.createElement("ul");
+                currentUsersDiv.append(userListElement);
+                data.forEach((user) => {
+                    let listItem = document.createElement("li");
+                    userListElement.append(listItem);
+                    listItem.innerHTML = user;
+                });
+
+                // update localstorage with new data
+                // JSON.stringify turns the array into a string, since
+                // localStorage can only hold strings. Compare the two logs:
+                // the first is a real array, the second is just text that
+                // looks like one.
+                let jsonStringVersionOfData = JSON.stringify(data);
+                console.log(data);
+                console.log(jsonStringVersionOfData);
+
+                // Save it under our key, replacing whatever was there.
+                // Refresh the page and DOMContentLoaded above loads it back.
+                // To see it: DevTools > Application tab > Local Storage.
+                localStorage.setItem(localStorageKey, jsonStringVersionOfData);
+            }
+        </script>
+    </body>
+</html>
