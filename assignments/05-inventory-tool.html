@@ -124,6 +124,11 @@
     <h2>Things That Will Trip You Up</h2>
     <ul>
         <li>
+            <strong>Don't forget <code>event.preventDefault()</code>.</strong> Without it, submitting the form
+            reloads the whole page. Your product flashes on screen for a split second and then vanishes, and
+            anything you hadn't saved yet is gone. If your form "does nothing," this is the first thing to check.
+        </li>
+        <li>
             <strong>Whoever grades this is using a different browser.</strong> <code>localStorage</code> lives
             in one browser on one computer, so the products you added won't be there for anyone else. They'll
             see your starter products and add their own. Make sure the starter catalog still looks like a
