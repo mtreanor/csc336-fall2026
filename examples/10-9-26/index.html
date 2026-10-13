@@ -13,7 +13,18 @@
                 to listen for.
             -->
             <form id="userDataForm">
-                <input id="nameInputField" type="text" placeholder="Add name...">
+                <!--
+                    The label's "for" matches the input's "id". That links
+                    them: clicking the label focuses the input, and screen
+                    readers announce "Name" when the input is focused.
+                -->
+                <label for="nameInputField">Name</label>
+                <input id="nameInputField" name="newNameInput" type="text" placeholder="Add name...">
+
+                <input name="input1" id="nameInputField1" type="text" placeholder="1">
+                <input name="input2" id="nameInputField2" type="text" placeholder="2">
+                <input name="input3" id="nameInputField3" type="text" placeholder="3">
+
                 <input type="submit">
             </form>
         </div>
@@ -63,10 +74,34 @@
                 // everything, so we tell the browser not to.
                 event.preventDefault();
 
+                // FormData reads every input inside the form in one go.
+                // It collects pairs of (name, value), where "name" comes from
+                // each input's name="..." attribute (NOT its id). An input
+                // with no name attribute is skipped entirely.
+                //
+                // Compare to the commented-out way below, where we grab one
+                // specific input element and read its .value. That's fine for
+                // one field, but with many fields you'd need a querySelector
+                // and a variable for every single one. FormData gets all of
+                // them from just the form.
+                let userFormData = new FormData(userForm);
+
+                // forEach visits each (name, value) pair. Note the order of
+                // the arguments: value comes first, then name. Uncomment the
+                // log to see all four inputs show up, even the empty ones.
+                userFormData.forEach((value, name) => {
+                    // console.log(name + ": " + value);
+                    if (name === "newNameInput") {
+                        userData.push(value);
+                    }
+                });
+
+
+                // The old way: reach directly into one input element.
                 // Add whatever was typed to our data, then empty the field
                 // so it's ready for the next name.
-                userData.push(nameInputField.value);
-                nameInputField.value = "";
+                // userData.push(nameInputField.value);
+                // nameInputField.value = "";
                 // console.log(userData);
 
                 // The data changed, so redraw the page
@@ -83,11 +118,16 @@
                 // Build a fresh <ul> and put one <li> in it per user.
                 let userListElement = document.createElement("ul");
                 currentUsersDiv.append(userListElement);
-                data.forEach((user) => {
+                // data.forEach((user) => {
+                //     let listItem = document.createElement("li");
+                //     userListElement.append(listItem);
+                //     listItem.innerHTML = user;
+                // });
+                for (let user of data) {
                     let listItem = document.createElement("li");
                     userListElement.append(listItem);
                     listItem.innerHTML = user;
-                });
+                }
 
                 // update localstorage with new data
                 // JSON.stringify turns the array into a string, since
