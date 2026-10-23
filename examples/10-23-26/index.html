@@ -1,0 +1,64 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <div id="timeoutFunctionDiv">Set Timeout hasn't run yet</div>
+        <script>
+            // setTimeout takes a callback and a delay (in ms). It does NOT
+            // pause the program: the rest of the script keeps running, and
+            // the callback runs later, once 5 seconds have passed.
+            let timeoutDiv = document.querySelector("#timeoutFunctionDiv");
+
+            setTimeout(() => {
+                timeoutDiv.innerHTML = "the function ran!";
+            }, 5000);
+
+            // A homemade "fake promise" to show what a promise really is:
+            // an object with a .then() method that saves your callback now
+            // and calls it later, when the waiting is done.
+            function fakeWait(ms) {
+                let savedCallback = null;
+
+                // After ms milliseconds, "resolve" by calling whatever
+                // callback was handed to .then().
+                setTimeout(() => {
+                    savedCallback();
+                }, ms);
+
+                // Hand back an object right away. The caller uses .then()
+                // to tell us what to do once the wait is over.
+                return {
+                    then: (callback) => {
+                        savedCallback = callback;
+                    }
+                }
+            }
+            let fakeWaitResult = fakeWait(2000);
+            fakeWaitResult.then(() => {
+                console.log("The wait fake promise has resolved!");
+            });
+
+            // Here's an example of the way it often looks with promises: call the function
+            // and chain .then() directly, no variable in between.
+            // fakeWait(2000).then(() => {
+            //     console.log("The wait fake promise has resolved!");
+            // });
+
+            // Implementing a "wait" using real Promises. The function we pass
+            // to new Promise gets a resolve function. Calling resolve is
+            // how the promise says "I'm done", which triggers the .then()
+            // callbacks.
+            function wait(ms) {
+                return new Promise((resolve) => {
+                    // code that determines when the promise is "fulfilled":
+                    // here, just call resolve once ms milliseconds pass
+                    setTimeout(resolve, ms);
+                });
+            }
+            wait(4000).then( () => {
+                console.log("the 'real' wait has finished waiting");
+            });
+        </script>
+    </body>
+</html>

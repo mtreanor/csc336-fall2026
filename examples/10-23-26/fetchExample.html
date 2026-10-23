@@ -1,0 +1,30 @@
+<html>
+    <body>
+        <script>
+            // fetch makes a request to a URL and immediately returns a
+            // promise. The loop doesn't wait for any responses, so all
+            // 10 requests get sent off right away, and each dog image
+            // shows up whenever its own response comes back (which is
+            // why they don't appear in order).
+            for (let i = 0; i < 10; i += 1) {
+                let fetchPromise = fetch("https://dog.ceo/api/breeds/image/random");
+
+                // First .then(): the response has arrived. .json() reads the
+                // body and parses it, which is also async, so it returns
+                // another promise.
+                fetchPromise.then((data) => {
+                    return data.json();
+                }).then((data) => {
+                    // Second .then(): data is now a regular JS object, e.g.
+                    // { message: "https://images.dog.ceo/...jpg", status: "success" }
+                    let bodyElement = document.querySelector("body");
+                    // Create and add an img for each dog response
+                    let dogImg = document.createElement("img");
+                    dogImg.src = data.message;
+                    dogImg.width = Math.random() * 500;
+                    bodyElement.append(dogImg);
+                })
+            }
+        </script>
+    </body>
+</html>
