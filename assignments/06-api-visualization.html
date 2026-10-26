@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Assignment 6: Visualizing Data from an API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        h2 {
+            margin-top: 40px;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 4px;
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        code {
+            background-color: #f0f0f0;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        pre {
+            background-color: #f0f0f0;
+            padding: 12px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Assignment 6: Visualizing Data from an API</h1>
+
+    <p><strong>Due:</strong> Tuesday, 11/3/26, before class.</p>
+
+    <h2>Goal</h2>
+    <p>
+        For this assignment, you'll get data from an API and then do something interesting with it using a
+        front-end library. What "interesting" means is up to you: a chart that compares things in a way
+        that tells you something, a p5.js sketch where the data becomes the characters, sizes, and colors
+        of a drawing, an animation, even a small game.
+    </p>
+    <p>
+        The main thing I'm looking for is that the library is working with the data you fetched, so that
+        the data is what decides what shows up on the page. For example, a chart built from numbers you
+        typed in yourself, or a p5.js sketch that sits next to some text from an API without using it,
+        would miss the point of the assignment.
+    </p>
+
+    <h2 id="apis">Data Sources</h2>
+    <p>
+        You can pick any one of these. They're all free and don't need an API key or sign-up, and each name
+        links to that API's documentation. Before you start writing code, it helps to open the URL in a
+        browser tab and look at the JSON it sends back.
+    </p>
+    <ul>
+        <li>
+            <strong><a href="https://pokeapi.co/docs/v2">PokéAPI</a></strong>: one Pokémon at a time, by name or
+            number.<br>
+            <code>https://pokeapi.co/api/v2/pokemon/pikachu</code><br>
+            Numbers: <code>data.height</code>, <code>data.weight</code>, and <code>data.stats</code>, an
+            array of six stats (hp, attack, defense, ...). Each one looks like
+            <code>{ base_stat: 35, stat: { name: "hp" } }</code>. Image:
+            <code>data.sprites.front_default</code>.<br>
+            Idea: a bar chart of one Pokémon's stats, or two Pokémon side by side.
+        </li>
+        <li>
+            <strong><a href="https://ghibliapi.vercel.app/">Studio Ghibli API</a></strong>: all 22 Studio
+            Ghibli films in one array.<br>
+            <code>https://ghibliapi.vercel.app/films</code><br>
+            Numbers: <code>release_date</code>, <code>running_time</code>, <code>rt_score</code> (Rotten
+            Tomatoes score). Also <code>title</code>, <code>director</code>, and <code>image</code>.<br>
+            Idea: every film's score as a bar chart, in release order.
+        </li>
+        <li>
+            <strong><a href="https://swapi.dev/documentation">Star Wars API</a></strong>: characters, 10 per page.<br>
+            <code>https://swapi.dev/api/people/</code> (all, in <code>data.results</code>) or
+            <code>https://swapi.dev/api/people/1/</code> (just one)<br>
+            Numbers: <code>height</code> (cm), <code>mass</code> (kg). Also <code>name</code>,
+            <code>eye_color</code>, <code>hair_color</code>.<br>
+            Idea: draw the characters side by side, to scale.
+        </li>
+        <li>
+            <strong><a href="https://dogapi.dog/docs/api-v2">Dog API</a></strong>: dog breeds, 30 per page.<br>
+            <code>https://dogapi.dog/api/v2/breeds</code><br>
+            Each breed is in <code>data.data</code>, with everything inside <code>attributes</code>:
+            <code>attributes.name</code>, <code>attributes.life.max</code>,
+            <code>attributes.male_weight.max</code>, and 1–5 scores like
+            <code>attributes.traits.energy</code> and <code>attributes.traits.barking</code>.<br>
+            Idea: which breeds are the most energetic? Or draw each breed as a circle sized by weight.
+        </li>
+        <li>
+            <strong><a href="https://hp-api.onrender.com/">Harry Potter API</a></strong>: 400+ characters in
+            one array.<br>
+            <code>https://hp-api.onrender.com/api/characters</code><br>
+            Data: <code>name</code>, <code>house</code>, <code>yearOfBirth</code>, <code>image</code>.
+            Not many numbers, so you'll count things yourself.<br>
+            Idea: a pie chart of how many characters are in each house.
+        </li>
+    </ul>
+    <p>
+        If you'd like to use a different API, check with me first. It needs to work without a key, and
+        some APIs block requests from web pages, so it's worth making sure it'll work before you build on
+        it.
+    </p>
+
+    <h2 id="libraries">Libraries</h2>
+    <p>
+        p5.js and Chart.js are the recommended ones, and they're what we use in class.
+    </p>
+    <ul>
+        <li>
+            <strong><a href="https://p5js.org/">p5.js</a></strong>: drawing, animation, and interaction on a
+            canvas.<br>
+            Start with <a href="https://p5js.org/tutorials/get-started/">Get Started</a>, then use the
+            <a href="https://p5js.org/reference/">Reference</a> to look up any function (each one has a
+            small example you can run).
+        </li>
+        <li>
+            <strong><a href="https://www.chartjs.org/">Chart.js</a></strong>: bar, line, pie, scatter, and
+            radar charts.<br>
+            Start with <a href="https://www.chartjs.org/docs/latest/getting-started/">Getting Started</a>,
+            then browse the <a href="https://www.chartjs.org/docs/latest/samples/information.html">Samples</a>
+            for a working example of every chart type.
+        </li>
+        <li>
+            <strong>Something else?</strong> You're welcome to use a different library, as long as it loads
+            from a CDN with a <code>&lt;script&gt;</code> tag and it's the part that makes your use of the
+            data interesting (for example, <a href="https://leafletjs.com/">Leaflet</a> for maps or
+            <a href="https://tonejs.github.io/">Tone.js</a> for sound). A library that only adds decoration
+            wouldn't be enough on its own.
+        </li>
+    </ul>
+
+    <h2>Requirements</h2>
+    <ol>
+        <li>
+            <strong>Use a front-end library, loaded from a CDN</strong><br>
+            p5.js or Chart.js (or <a href="#libraries">something else</a> that does real work with the data).
+            Load it with a <code>&lt;script&gt;</code> tag, before your own <code>script.js</code>. For p5.js
+            and Chart.js, use these exact versions so your code matches the docs and the class demos:
+<pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/p5@2.3.4/lib/p5.min.js"&gt;&lt;/script&gt;</code></pre>
+        </li>
+        <li>
+            <strong>Fetch data from one of the data sources</strong><br>
+            Use <code>fetch</code> with <code>async</code>/<code>await</code> to get data from one of the
+            APIs in <a href="#apis">Data Sources</a> above.
+        </li>
+        <li>
+            <strong>The data drives the visualization</strong><br>
+            Pull specific values out of the JSON and use them as inputs to the library: the bars or points
+            on a chart, or the sizes, colors, and positions of things in a p5.js sketch. Your visualization
+            should use <strong>at least two different values</strong> from the data (for example, a Pokémon's attack
+            <em>and</em> defense, or a film's score <em>and</em> its year).
+        </li>
+        <li>
+            <strong>Code comments</strong><br>
+            Add your own <strong>HAND-WRITTEN</strong> code comments explaining what
+            is happening in your code.
+        </li>
+        <li>
+            <strong>BONUS: A way to change what's shown</strong><br>
+            Controls (a <code>&lt;select&gt;</code>, buttons, a text box) that makes a new
+            request and updates the visualization without reloading the page. For example: a different
+            Pokémon, a different character, the next page of dog breeds.
+        </li>
+    </ol>
+
+    <h2>Things That Will Trip You Up</h2>
+    <ul>
+        <li>
+            <strong>Looking at the JSON first.</strong> Opening your URL in a browser tab, or using
+            <code>console.log(data)</code> and expanding it in DevTools, saves a lot of time. Most bugs here
+            come from a wrong guess at the path to a value (<code>data.name</code> when it's really <code>data.data[0].attributes.name</code>).
+        </li>
+        <li>
+            <strong>Numbers that are really strings.</strong> The Star Wars and Ghibli APIs send numbers in
+            quotes: <code>"height": "172"</code>. You'll need <code>Number()</code> before doing math with them.
+        </li>
+        <li>
+            <strong><code>await</code> only works inside an <code>async</code> function.</strong> Outside
+            one, you'll get "SyntaxError: await is only valid in async functions" and none of your script
+            will run.
+        </li>
+        <li>
+            <strong>p5.js versions.</strong> Lots of p5.js tutorials online were written for version 1 and use
+            <code>preload()</code>, which doesn't exist in version 2. In p5.js 2, you can make
+            <code>setup</code> an <code>async function</code> and <code>await</code> your data inside it
+            instead. p5 waits for
+            <code>setup</code> to finish before it starts calling <code>draw</code>.
+        </li>
+        <li>
+            <strong>Fetching inside <code>draw()</code>.</strong> <code>draw()</code> runs about 60 times a
+            second, so a fetch in there sends 60 requests a second. Fetching in <code>setup</code>, or when a
+            control is used, avoids that.
+        </li>
+        <li>
+            <strong>Chart.js doesn't notice when your data changes.</strong> The usual approach is to make
+            the chart once with <code>new Chart(...)</code>, and then when new data arrives, change
+            <code>chart.data</code> and call <code>chart.update()</code>.
+        </li>
+    </ul>
+
+    <h2 id="folder-structure">File and Folder Setup</h2>
+    <p>
+        Same rules as before: folder and file names must match exactly. Your files go in a new
+        <code>06-api-visualization</code> folder:
+    </p>
+    <pre><code>csc336-fall2026/
+└── assignments/
+    └── 06-api-visualization/
+        ├── index.html
+        ├── style.css
+        └── script.js</code></pre>
+    <p>
+        Once pushed, your assignment will be visible at:<br>
+        <code>https://&lt;your-username&gt;.github.io/csc336-fall2026/assignments/06-api-visualization/</code>
+    </p>
+
+    <h2>A Note on Generative AI</h2>
+    <p>
+        Do not use ChatGPT, Copilot, Claude, or any other generative AI tool to write any part of this
+        assignment. Whatever you do, remember that your goal should be to understand 100% of the code that
+        you turn in.
+    </p>
+
+    <h2>What to Submit</h2>
+    <p>
+        Nothing to submit directly. Your assignment should be publicly available at the address in
+        <a href="#folder-structure">File and Folder Setup</a> above once you've committed and pushed.
+    </p>
+
+</body>
+
+</html>
