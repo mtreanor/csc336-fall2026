@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <!-- This is how you import p5 into your project: a <script> tag that loads someone else's
+             code from a CDN. It has to come BEFORE our own script.js, since our code uses p5's functions. -->
+        <!-- We never call setup() or draw() ourselves. p5 calls them for us. Because our setup is an
+             async function, p5 waits for it to finish before it starts calling draw. -->
+        <script src="https://cdn.jsdelivr.net/npm/p5@2.3.3/lib/p5.min.js"></script>
+        <script src="./script.js"></script>
+    </head>
+    <body>
+        <script>
+
+            // **** A ****
+            // This is the VERBOSE way of doing asynchronous calls (.then).
+            // You'll see this a lot online. Each .then is one of the awaits in B.
+            //
+            // let promise = fetch("https://pokeapi.co/api/v2/pokemon/1000"); // fetch returns a "Promise"
+            // promise.then((data)=>{
+            //     // data here is the response from the server, not the JSON yet
+            //     // console.log("a - fetch promise resolved");
+            //     return data.json();
+            // }).then((json) => {
+            //     console.log(json);
+            // });
+            // // This prints FIRST, because fetch doesn't wait for the server to answer
+            // console.log("b - This runs immediately after fetch()");
+
+
+            // **** B ****
+            // This is the leaner, easier to understand way (use this way for now).
+            // await = "wait here until this finishes, then keep going."
+            // It only works inside a function marked async.
+            //
+            // async function getPokemon(id) {
+            //     let response = await fetch("https://pokeapi.co/api/v2/pokemon/" + id); // 1. wait for the server
+            //     let json = await response.json()                                          // 2. wait for it to become a JS object
+            //     console.log(json);
+            // }
+            // getPokemon(1);
+
+        </script>
+    </body>
+</html>
