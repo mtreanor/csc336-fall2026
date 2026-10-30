@@ -1,0 +1,16 @@
+<html>
+
+    <head>
+        <!-- This is how you import p5 into your project: a <script> tag that loads someone else's
+                code from a CDN. It has to come BEFORE our own script.js, since our code uses p5's functions. -->
+        <!-- We never call setup() or draw() ourselves. p5 calls them for us. Because our setup is an
+                async function, p5 waits for it to finish before it starts calling draw. -->
+        <script src="https://cdn.jsdelivr.net/npm/p5@2.3.3/lib/p5.min.js"></script>
+        <script src="./script.js"></script>
+    </head>
+
+    <!-- No HTML needed: p5 adds the canvas to the page for us (createCanvas in setup) -->
+    <body>
+    </body>
+
+</html>
