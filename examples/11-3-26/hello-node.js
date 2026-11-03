@@ -21,6 +21,8 @@ for (let i = 0; i < 10; i++) {
 }
 
 // Save them to a new file. JSON.stringify turns the array back into a string;
-// the null, 3 makes it readable (3 spaces of indentation) instead of one long line.
 // This creates the file if it doesn't exist, and replaces it if it does.
-fs.writeFileSync("./data/random-10-names.json", JSON.stringify(names, null, 3));
+fs.writeFileSync("./data/random-10-names.json", JSON.stringify(names));
+
+// the null, 3 makes it readable (3 spaces of indentation) instead of one long line.
+// fs.writeFileSync("./data/random-10-names.json", JSON.stringify(names, null, 3));
