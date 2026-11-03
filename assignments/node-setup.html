@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Setting Up Node.js</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        h2 {
+            margin-top: 40px;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 4px;
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        code {
+            background-color: #f0f0f0;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        pre {
+            background-color: #f0f0f0;
+            padding: 12px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Setting Up Node.js</h1>
+
+    <p>
+        So far, all of our JavaScript has run inside a web browser. Node.js lets you run JavaScript on your
+        own computer, in a terminal, which is what we need to write servers. This page walks you through
+        installing it.
+    </p>
+    <p>
+        Follow the section for your computer (<a href="#mac">Mac</a> or <a href="#windows">Windows</a>),
+        then everyone does <a href="#check">Check That It Works</a>.
+    </p>
+
+    <h2 id="mac">Mac</h2>
+    <ol>
+        <li>
+            <strong>Install Node.js</strong><br>
+            Go to <a href="https://nodejs.org" target="_blank">nodejs.org</a> and download the
+            <strong>LTS</strong> version. Open the <code>.pkg</code> file and click through the installer with
+            the default options. It will ask for your Mac's password.
+        </li>
+        <li>
+            <strong>Restart VS Code</strong><br>
+            Quit VS Code completely (<strong>Code &gt; Quit Visual Studio Code</strong>, or Cmd+Q), then open
+            it again. A terminal that was already open before you installed Node won't know about it.
+        </li>
+        <li>
+            <strong>Open a terminal in VS Code</strong><br>
+            <strong>Terminal &gt; New Terminal</strong>. This is the terminal we'll use in class.
+        </li>
+    </ol>
+
+    <h2 id="windows">Windows</h2>
+    <p>
+        On Windows, we'll all use <strong>Git Bash</strong> as our terminal (not PowerShell or Command
+        Prompt). It uses the same commands as a Mac, so everything in class will work the same for everyone.
+    </p>
+    <ol>
+        <li>
+            <strong>Install Git for Windows (this includes Git Bash)</strong><br>
+            Go to <a href="https://git-scm.com/downloads/win" target="_blank">git-scm.com/downloads/win</a>
+            and download the installer. Run it and click <strong>Next</strong> through every screen, keeping
+            the default options. If you've already installed it before, you can skip this step.
+        </li>
+        <li>
+            <strong>Install Node.js</strong><br>
+            Go to <a href="https://nodejs.org" target="_blank">nodejs.org</a> and download the
+            <strong>LTS</strong> version (the <code>.msi</code> file). Run it and keep the default options,
+            with one exception: on the screen called <strong>Tools for Native Modules</strong>,
+            <strong>leave the box unchecked</strong>. That box installs a lot of extra tools we don't need and
+            can take a very long time.
+        </li>
+        <li>
+            <strong>Restart VS Code</strong><br>
+            Close every VS Code window, then open it again. A terminal that was already open before you
+            installed Node won't know about it.
+        </li>
+        <li>
+            <strong>Make Git Bash your terminal in VS Code</strong><br>
+            Press <strong>Ctrl+Shift+P</strong>, type <code>Terminal: Select Default Profile</code>, press
+            Enter, and choose <strong>Git Bash</strong>. If Git Bash isn't in the list, restart your computer
+            and try again.
+        </li>
+        <li>
+            <strong>Open a terminal in VS Code</strong><br>
+            <strong>Terminal &gt; New Terminal</strong>. The dropdown in the top right corner of the terminal
+            panel should say <strong>bash</strong>. If it says powershell or cmd, close that terminal (the
+            trash can icon) and open a new one.
+        </li>
+    </ol>
+
+    <h2 id="check">Check That It Works (Everyone)</h2>
+    <ol>
+        <li>
+            <strong>Check the versions</strong><br>
+            In the VS Code terminal, type each of these and press Enter:
+<pre><code>node -v
+npm -v</code></pre>
+            Each one should print a version number, like <code>v24.11.0</code> and <code>11.6.2</code>. Your
+            numbers might be a little different, and that's fine.
+        </li>
+        <li>
+            <strong>Run your first Node program</strong><br>
+            In VS Code, open your <code>csc336-fall2026</code> folder (<strong>File &gt; Open Folder</strong>).
+            Make a new file in it called <code>hello.js</code> with this one line:
+<pre><code>console.log("Hello from Node!");</code></pre>
+            Save it, then in the terminal type:
+<pre><code>node hello.js</code></pre>
+            If you see <code>Hello from Node!</code> printed in the terminal, you're all set. That was
+            JavaScript running on your computer, with no browser involved. You can delete
+            <code>hello.js</code> afterward.
+        </li>
+    </ol>
+
+    <h2>Terminal Commands You'll Use</h2>
+    <p>These work the same on a Mac and in Git Bash.</p>
+    <ul>
+        <li><code>pwd</code>: show which folder the terminal is in</li>
+        <li><code>ls</code>: list the files in this folder</li>
+        <li><code>cd foldername</code>: go into a folder (<code>cd ..</code> goes back up one)</li>
+        <li><code>node filename.js</code>: run a JavaScript file</li>
+        <li><strong>Ctrl+C</strong>: stop a program that's running (like a server)</li>
+    </ul>
+
+</body>
+
+</html>
