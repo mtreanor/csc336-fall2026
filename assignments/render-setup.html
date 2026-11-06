@@ -81,24 +81,20 @@
         <strong>You should not spend any money on Render.</strong> Always pick the <strong>Free</strong>
         instance type, and <strong>don't add a credit card or any payment method</strong>. Without one,
         Render can't charge you: if you ever go over the free limits, it just pauses your service until
-        next month. If Render ever asks you for a card to continue, stop and ask me.
+        next month.
     </div>
 
     <h2>Static Hosting vs. Running a Server</h2>
     <p>
         GitHub Pages has been hosting our sites all semester. It's a <strong>static</strong> host: when a
         browser asks for a file, GitHub sends that file back exactly as it is. It never runs any of our code
-        itself. Our JavaScript only ran in the visitor's browser, after the file got there.
+        itself. 
     </p>
     <p>
         A Node server is different. It's a program that has to <strong>keep running</strong> somewhere,
         waiting for requests and deciding what to send back. GitHub Pages can't do that. Render (like
         <strong>Heroku</strong>, <strong>Railway</strong>, or <strong>Fly.io</strong>, which you may have
         heard of) gives you a computer that runs your server for you, using the commands you tell it to.
-    </p>
-    <p>
-        You'll see the difference for yourself at the end of this page: GitHub Pages will happily show you
-        your <code>server.js</code> file, but only as text. Render will actually run it.
     </p>
 
     <h2 id="server">Step 1: Make a Server and Push It</h2>
@@ -229,7 +225,7 @@ node server.js</code></pre>
                 </tr>
                 <tr>
                     <td>Instance Type</td>
-                    <td><strong>Free</strong> (double check this one!)</td>
+                    <td><strong>Free</strong></td>
                 </tr>
             </table>
         </li>
@@ -302,10 +298,6 @@ node server.js</code></pre>
             or falls asleep. It goes back to whatever is in GitHub. Saving data for real is what databases
             are for.
         </li>
-        <li>
-            <strong>750 free hours a month.</strong> That's enough for one server running all month. A
-            sleeping server doesn't use up hours.
-        </li>
     </ul>
 
     <h2 id="problems">If Something Goes Wrong</h2>
@@ -327,10 +319,6 @@ node server.js</code></pre>
         <tr>
             <td><code>Cannot use import statement outside a module</code></td>
             <td><code>package.json</code> is missing <code>"type": "module"</code></td>
-        </tr>
-        <tr>
-            <td>No open ports detected</td>
-            <td>The server isn't using <code>process.env.PORT</code></td>
         </tr>
         <tr>
             <td>Your latest change isn't showing up</td>
