@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hosting a Server on Render</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        h2 {
+            margin-top: 40px;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 4px;
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        code {
+            background-color: #f0f0f0;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        pre {
+            background-color: #f0f0f0;
+            padding: 12px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 12px 0;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 6px 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .warning {
+            background-color: #fff4e5;
+            border-left: 5px solid #f0a020;
+            padding: 10px 14px;
+            margin: 16px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Hosting a Server on Render</h1>
+
+    <h2>What Is Render?</h2>
+    <p>
+        <a href="https://render.com" target="_blank">Render</a> is a hosting service: a company that runs
+        your code on their computers, all day, at a public URL anyone can visit. It has a <strong>free
+        tier</strong>, and that's all we'll use in this class.
+    </p>
+
+    <div class="warning">
+        <strong>You should not spend any money on Render.</strong> Always pick the <strong>Free</strong>
+        instance type, and <strong>don't add a credit card or any payment method</strong>. Without one,
+        Render can't charge you: if you ever go over the free limits, it just pauses your service until
+        next month. If Render ever asks you for a card to continue, stop and ask me.
+    </div>
+
+    <h2>Static Hosting vs. Running a Server</h2>
+    <p>
+        GitHub Pages has been hosting our sites all semester. It's a <strong>static</strong> host: when a
+        browser asks for a file, GitHub sends that file back exactly as it is. It never runs any of our code
+        itself. Our JavaScript only ran in the visitor's browser, after the file got there.
+    </p>
+    <p>
+        A Node server is different. It's a program that has to <strong>keep running</strong> somewhere,
+        waiting for requests and deciding what to send back. GitHub Pages can't do that. Render (like
+        <strong>Heroku</strong>, <strong>Railway</strong>, or <strong>Fly.io</strong>, which you may have
+        heard of) gives you a computer that runs your server for you, using the commands you tell it to.
+    </p>
+    <p>
+        You'll see the difference for yourself at the end of this page: GitHub Pages will happily show you
+        your <code>server.js</code> file, but only as text. Render will actually run it.
+    </p>
+
+    <h2 id="server">Step 1: Make a Server and Push It</h2>
+    <ol>
+        <li>
+            <strong>Make a folder</strong><br>
+            In VS Code, open your <code>csc336-fall2026</code> folder. Make a new folder inside it called
+            <code>render-test</code>.
+        </li>
+        <li>
+            <strong>Make <code>server.js</code></strong><br>
+            Inside <code>render-test</code>, make a file called <code>server.js</code> with this code. It uses
+            only Node's built-in <code>http</code>, so there's nothing to install.
+<pre><code>import http from "http";
+
+// Render tells our server which port to use with the PORT environment variable.
+// On your own computer, PORT isn't set, so we use 3000 instead.
+let port = process.env.PORT || 3000;
+
+// This function runs once for every request that comes in.
+let server = http.createServer((req, res) => {
+    // On Render, this shows up in the Logs page (Render's version of the terminal).
+    console.log(req.method + " " + req.url);
+
+    // This runs fresh for every request, so the time changes every time you refresh.
+    // A static host like GitHub Pages can't do this: it only sends files.
+    let now = new Date();
+
+    res.writeHead(200, { "Content-Type": "text/plain" });
+    res.end("Hello from my server! The server's clock says " + now.toString());
+});
+
+server.listen(port, () => {
+    console.log("Server running on port " + port);
+});</code></pre>
+        </li>
+        <li>
+            <strong>Make <code>package.json</code></strong><br>
+            Also inside <code>render-test</code>, make a file called <code>package.json</code>:
+<pre><code>{
+  "name": "render-test",
+  "type": "module"
+}</code></pre>
+            <code>"type": "module"</code> is what lets us use <code>import</code>. Render also needs this
+            file to exist, or its <code>npm install</code> step will fail.
+        </li>
+        <li>
+            <strong>Test it on your computer first</strong><br>
+            In the terminal:
+<pre><code>cd render-test
+node server.js</code></pre>
+            Visit <a href="http://localhost:3000" target="_blank">http://localhost:3000</a>. You should see
+            the hello message, and the time should change when you refresh. Press <strong>Ctrl+C</strong> to
+            stop the server.
+        </li>
+        <li>
+            <strong>Commit and push</strong><br>
+            Commit both files and push them to GitHub, the same way you've pushed every assignment. Check on
+            github.com that the <code>render-test</code> folder is there with both files in it.
+        </li>
+    </ol>
+
+    <h2 id="account">Step 2: Make a Render Account</h2>
+    <ol>
+        <li>
+            Go to <a href="https://render.com" target="_blank">render.com</a> and click <strong>Get
+            Started</strong> (or <strong>Sign Up</strong>).
+        </li>
+        <li>
+            Sign up with your GitHub account or with an email address. Either one works.
+        </li>
+        <li>
+            If it asks you about a plan, choose the free one (<strong>Hobby</strong>). Skip anything that
+            asks for payment information.
+        </li>
+        <li>
+            Once you're logged in, you'll land on the <strong>Dashboard</strong>. This is where all your
+            services live.
+        </li>
+    </ol>
+
+    <h2 id="service">Step 3: Create a Web Service</h2>
+    <ol>
+        <li>
+            In the Dashboard, click <strong>New</strong> (top of the page), then <strong>Web Service</strong>.
+        </li>
+        <li>
+            <strong>Point it at your repo.</strong> Render asks where your code is. Choose the
+            <strong>Public Git Repository</strong> tab, and paste in your repo's URL:
+<pre><code>https://github.com/YOUR-GITHUB-USERNAME/csc336-fall2026</code></pre>
+            Then click <strong>Connect</strong>. This works because your repo is public. (The other option,
+            Git Provider, links your GitHub account to Render. That works too, but you don't need it.)
+        </li>
+        <li>
+            <strong>Fill in the settings.</strong> Render shows a form. Here's what to put in each field:
+            <table>
+                <tr>
+                    <th>Field</th>
+                    <th>What to put</th>
+                </tr>
+                <tr>
+                    <td>Name</td>
+                    <td>Anything, like <code>yourname-render-test</code>. It becomes part of your URL.</td>
+                </tr>
+                <tr>
+                    <td>Language</td>
+                    <td><code>Node</code></td>
+                </tr>
+                <tr>
+                    <td>Branch</td>
+                    <td><code>main</code></td>
+                </tr>
+                <tr>
+                    <td>Region</td>
+                    <td>Anything (the default is fine)</td>
+                </tr>
+                <tr>
+                    <td>Root Directory</td>
+                    <td><code>render-test</code> (see below)</td>
+                </tr>
+                <tr>
+                    <td>Build Command</td>
+                    <td><code>npm install</code></td>
+                </tr>
+                <tr>
+                    <td>Start Command</td>
+                    <td><code>node server.js</code></td>
+                </tr>
+                <tr>
+                    <td>Instance Type</td>
+                    <td><strong>Free</strong> (double check this one!)</td>
+                </tr>
+            </table>
+        </li>
+        <li>
+            <strong>About Root Directory:</strong> your repo has a lot of things in it (your homepage, your
+            assignments), but the server is only the <code>render-test</code> folder. Root Directory tells
+            Render "treat this folder as the whole project." Render runs the build and start commands
+            <em>inside</em> that folder, which is why the start command is just <code>node server.js</code>
+            and not <code>node render-test/server.js</code>. If your server is in a different folder, put
+            that folder's path here instead (for example <code>a08/server</code>). If you leave it blank,
+            Render uses the top of your repo. You can change it later in your service's
+            <strong>Settings</strong> page, under <strong>Build &amp; Deploy</strong>.
+        </li>
+        <li>
+            <strong>Build Command</strong> runs once, to set things up: <code>npm install</code> downloads
+            whatever is listed in <code>package.json</code> (nothing yet, but once you use Express, this is
+            what installs it). <strong>Start Command</strong> is what actually runs your server, exactly like
+            typing it in your own terminal.
+        </li>
+        <li>
+            Click <strong>Deploy Web Service</strong> at the bottom.
+        </li>
+    </ol>
+
+    <h2 id="deploy">Step 4: Watch It Deploy and Get Your Link</h2>
+    <ol>
+        <li>
+            Render shows you a log while it works. "Deploying" means: download your code from GitHub, run
+            your build command, then run your start command. The first one can take a few minutes.
+        </li>
+        <li>
+            Near the end you should see your own <code>console.log</code> message,
+            <code>Server running on port 10000</code>, and then a message saying your service is live.
+            (10000 is the port Render picked and put in <code>process.env.PORT</code>.)
+        </li>
+        <li>
+            <strong>Your link</strong> is at the top of your service's page, right under its name. It looks
+            like this:
+<pre><code>https://yourname-render-test.onrender.com</code></pre>
+            Click it. You should see your hello message, coming from your server, running on Render's
+            computer. Refresh it a few times and watch the time change.
+        </li>
+        <li>
+            Click <strong>Logs</strong> in the left sidebar. Every time you refresh, a new
+            <code>GET /</code> line shows up. This is your server's terminal now.
+        </li>
+        <li>
+            <strong>Compare with GitHub Pages.</strong> Visit
+            <code>https://YOUR-GITHUB-USERNAME.github.io/csc336-fall2026/render-test/server.js</code>.
+            GitHub Pages just shows you the file's text. The time never changes, because nothing ran it.
+        </li>
+    </ol>
+
+    <h2 id="update">Changing Your Server Later</h2>
+    <p>
+        Because we connected with a public repo URL, Render doesn't notice when you push new code. After you
+        commit and push a change, go to your service's page in Render and click <strong>Manual
+        Deploy</strong>, then <strong>Deploy latest commit</strong>.
+    </p>
+
+    <h2 id="free">Things to Know About the Free Tier</h2>
+    <ul>
+        <li>
+            <strong>It falls asleep.</strong> After 15 minutes with no visitors, Render stops your server.
+            The next visit wakes it up, but that takes about a minute. That's normal, not a bug.
+        </li>
+        <li>
+            <strong>Files don't stick around.</strong> If your server saves to a file (like a JSON file with
+            <code>fs.writeFileSync</code>), those changes disappear whenever the server restarts, redeploys,
+            or falls asleep. It goes back to whatever is in GitHub. Saving data for real is what databases
+            are for.
+        </li>
+        <li>
+            <strong>750 free hours a month.</strong> That's enough for one server running all month. A
+            sleeping server doesn't use up hours.
+        </li>
+    </ul>
+
+    <h2 id="problems">If Something Goes Wrong</h2>
+    <p>Check the deploy log first. The error is usually near the bottom.</p>
+    <table>
+        <tr>
+            <th>You see</th>
+            <th>It probably means</th>
+        </tr>
+        <tr>
+            <td><code>Could not read package.json</code></td>
+            <td>Root Directory is wrong, or <code>package.json</code> wasn't pushed</td>
+        </tr>
+        <tr>
+            <td><code>Cannot find module .../server.js</code></td>
+            <td>Start Command or Root Directory doesn't match where <code>server.js</code> is (check
+                spelling and capitalization)</td>
+        </tr>
+        <tr>
+            <td><code>Cannot use import statement outside a module</code></td>
+            <td><code>package.json</code> is missing <code>"type": "module"</code></td>
+        </tr>
+        <tr>
+            <td>No open ports detected</td>
+            <td>The server isn't using <code>process.env.PORT</code></td>
+        </tr>
+        <tr>
+            <td>Your latest change isn't showing up</td>
+            <td>Did you push it? Then click Manual Deploy</td>
+        </tr>
+        <tr>
+            <td>The page takes forever to load</td>
+            <td>It was asleep. Give it a minute</td>
+        </tr>
+    </table>
+
+</body>
+
+</html>
