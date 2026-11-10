@@ -68,7 +68,7 @@
 </head>
 
 <body>
-    <h1>Hosting a Past Assignment with Express</h1>
+    <h1>Assignment 7: Hosting a Past Assignment with Express</h1>
 
     <p><strong>Due:</strong> Tuesday, 11/17/26, before class.</p>
 
@@ -94,12 +94,12 @@
 
     <h2 id="folder-structure">File and Folder Setup</h2>
     <p>
-        Make a new <code>express-hosting</code> folder in your <code>assignments</code> folder. Folder and
+        Make a new <code>07-express-hosting</code> folder in your <code>assignments</code> folder. Folder and
         file names must match exactly:
     </p>
 <pre><code>csc336-fall2026/
 └── assignments/
-    └── express-hosting/
+    └── 07-express-hosting/
         ├── README.md
         ├── .gitignore
         ├── package.json
@@ -123,7 +123,7 @@
         </li>
         <li>
             <strong>Install Express</strong><br>
-            In the terminal, <code>cd</code> into your <code>express-hosting</code> folder and run:
+            In the terminal, <code>cd</code> into your <code>07-express-hosting</code> folder and run:
 <pre><code>npm install express</code></pre>
             This makes <code>package.json</code>, <code>package-lock.json</code>, and a
             <code>node_modules</code> folder. Then open <code>package.json</code> and add
@@ -137,7 +137,7 @@
         </li>
         <li>
             <strong>Don't push <code>node_modules</code></strong><br>
-            Make a file called <code>.gitignore</code> in <code>express-hosting</code> with this one line in
+            Make a file called <code>.gitignore</code> in <code>07-express-hosting</code> with this one line in
             it:
 <pre><code>node_modules</code></pre>
             <code>node_modules</code> can have thousands of files in it. Render doesn't need it from you,
@@ -169,7 +169,7 @@
                 </tr>
                 <tr>
                     <td>Root Directory</td>
-                    <td><code>assignments/express-hosting</code></td>
+                    <td><code>assignments/07-express-hosting</code></td>
                 </tr>
                 <tr>
                     <td>Build Command</td>
@@ -187,7 +187,7 @@
         </li>
         <li>
             <strong>Put your Render link in <code>README.md</code></strong><br>
-            Make a file called <code>README.md</code> in <code>express-hosting</code> with your Render link
+            Make a file called <code>README.md</code> in <code>07-express-hosting</code> with your Render link
             in it, like:
 <pre><code>https://yourname-express-hosting.onrender.com</code></pre>
             GitHub shows this file when someone opens your folder, which is how I'll find your server.
@@ -208,7 +208,7 @@
     <h2>Things That Will Trip You Up</h2>
     <ul>
         <li>
-            <strong>Run <code>node server.js</code> from inside <code>express-hosting</code>.</strong>
+            <strong>Run <code>node server.js</code> from inside <code>07-express-hosting</code>.</strong>
             <code>express.static("public")</code> looks for <code>public</code> in the folder you ran the
             command from. If you run it from somewhere else, every page is "Cannot GET /".
         </li>
@@ -242,7 +242,7 @@
 
     <h2>What to Submit</h2>
     <p>
-        Nothing to submit directly. Push your <code>express-hosting</code> folder, make sure your Render link
+        Nothing to submit directly. Push your <code>07-express-hosting</code> folder, make sure your Render link
         works, and make sure that link is in your <code>README.md</code>.
     </p>
 
