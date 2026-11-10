@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hosting a Past Assignment with Express</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        h2 {
+            margin-top: 40px;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 4px;
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        code {
+            background-color: #f0f0f0;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        pre {
+            background-color: #f0f0f0;
+            padding: 12px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 12px 0;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 6px 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .warning {
+            background-color: #fff4e5;
+            border-left: 5px solid #f0a020;
+            padding: 10px 14px;
+            margin: 16px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Hosting a Past Assignment with Express</h1>
+
+    <p><strong>Due:</strong> Tuesday, 11/17/26, before class.</p>
+
+    <h2>Goal</h2>
+    <p>
+        In the <a href="render-setup.html">Render setup</a>, you got a tiny server running on Render. In
+        class on 11/10, we saw that one line of Express, <code>express.static("public")</code>, turns a
+        folder of files into a working website. For this assignment, you'll put those two things together:
+        pick one of your past assignments, serve it with your own Express server, and host that server on
+        Render.
+    </p>
+    <p>
+        Your assignment already works on GitHub Pages. The difference is that this time, <strong>your own
+        server</strong> is the one sending the files. That's the starting point for everything we build
+        next, where the server will also send and save data.
+    </p>
+    <p>
+        Start from the example from class:
+        <a href="https://github.com/mtreanor/csc336-fall2026/tree/main/examples/11-10-26-express"
+            target="_blank">The Same Server in Express</a> (<code>server.js</code>,
+        <code>package.json</code>, and a <code>public/</code> folder).
+    </p>
+
+    <h2 id="folder-structure">File and Folder Setup</h2>
+    <p>
+        Make a new <code>express-hosting</code> folder in your <code>assignments</code> folder. Folder and
+        file names must match exactly:
+    </p>
+<pre><code>csc336-fall2026/
+└── assignments/
+    └── express-hosting/
+        ├── README.md
+        ├── .gitignore
+        ├── package.json
+        ├── package-lock.json
+        ├── server.js
+        └── public/
+            ├── index.html
+            ├── style.css
+            └── script.js     (and whatever other files your assignment uses)</code></pre>
+    <p>
+        <strong>Copy</strong> your past assignment's files into <code>public/</code>. Don't move them: the
+        original should keep working on GitHub Pages.
+    </p>
+
+    <h2>Requirements</h2>
+    <ol>
+        <li>
+            <strong>Pick a past assignment</strong><br>
+            Any of Assignments 3 through 6 is a good choice, because they have JavaScript. Copy all of its
+            files into <code>public/</code>, keeping any subfolders (like <code>images/</code>) the same.
+        </li>
+        <li>
+            <strong>Install Express</strong><br>
+            In the terminal, <code>cd</code> into your <code>express-hosting</code> folder and run:
+<pre><code>npm install express</code></pre>
+            This makes <code>package.json</code>, <code>package-lock.json</code>, and a
+            <code>node_modules</code> folder. Then open <code>package.json</code> and add
+            <code>"type": "module"</code> so you can use <code>import</code>. It should look like this:
+<pre><code>{
+  "type": "module",
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}</code></pre>
+        </li>
+        <li>
+            <strong>Don't push <code>node_modules</code></strong><br>
+            Make a file called <code>.gitignore</code> in <code>express-hosting</code> with this one line in
+            it:
+<pre><code>node_modules</code></pre>
+            <code>node_modules</code> can have thousands of files in it. Render doesn't need it from you,
+            because its build command, <code>npm install</code>, downloads everything listed in
+            <code>package.json</code> itself.
+        </li>
+        <li>
+            <strong>Write <code>server.js</code> with Express</strong><br>
+            Use <code>express.static("public")</code> to serve your files, like the class example. One change
+            from the class example: Render picks the port, so use the same line as your Render setup server.
+<pre><code>const port = process.env.PORT || 3000;</code></pre>
+        </li>
+        <li>
+            <strong>Test it on your computer first</strong><br>
+            Run <code>node server.js</code> and visit
+            <a href="http://localhost:3000" target="_blank">http://localhost:3000</a>. Your assignment should
+            look and work exactly like it does on GitHub Pages. Open the Network tab and make sure nothing is
+            red (a red line is a file the browser asked for and didn't get).
+        </li>
+        <li>
+            <strong>Host it on Render</strong><br>
+            Commit, push, and make a new Web Service, following
+            <a href="render-setup.html#service">Step 3 of the Render setup</a>. The only setting that changes
+            is Root Directory:
+            <table>
+                <tr>
+                    <th>Field</th>
+                    <th>What to put</th>
+                </tr>
+                <tr>
+                    <td>Root Directory</td>
+                    <td><code>assignments/express-hosting</code></td>
+                </tr>
+                <tr>
+                    <td>Build Command</td>
+                    <td><code>npm install</code></td>
+                </tr>
+                <tr>
+                    <td>Start Command</td>
+                    <td><code>node server.js</code></td>
+                </tr>
+                <tr>
+                    <td>Instance Type</td>
+                    <td><strong>Free</strong> (don't add a credit card)</td>
+                </tr>
+            </table>
+        </li>
+        <li>
+            <strong>Put your Render link in <code>README.md</code></strong><br>
+            Make a file called <code>README.md</code> in <code>express-hosting</code> with your Render link
+            in it, like:
+<pre><code>https://yourname-express-hosting.onrender.com</code></pre>
+            GitHub shows this file when someone opens your folder, which is how I'll find your server.
+        </li>
+        <li>
+            <strong>Code comments</strong><br>
+            Add your own <strong>HAND-WRITTEN</strong> comments to <code>server.js</code> explaining what
+            each part does.
+        </li>
+        <li>
+            <strong>BONUS: A route of your own</strong><br>
+            Add at least one <code>app.get</code> route, like <code>/mike</code> in the class example, that
+            sends back something that isn't a file. For example, <code>/about</code> could send a sentence
+            about which assignment this is, or <code>/time</code> could send the server's current time.
+        </li>
+    </ol>
+
+    <h2>Things That Will Trip You Up</h2>
+    <ul>
+        <li>
+            <strong>Run <code>node server.js</code> from inside <code>express-hosting</code>.</strong>
+            <code>express.static("public")</code> looks for <code>public</code> in the folder you ran the
+            command from. If you run it from somewhere else, every page is "Cannot GET /".
+        </li>
+        <li>
+            <strong>Files from outside your assignment folder.</strong> If your assignment used a path like
+            <code>../../images/cat.png</code>, that file isn't in <code>public/</code>, and your server can't
+            send anything outside <code>public/</code>. Copy the file into <code>public/</code> and fix the
+            path.
+        </li>
+        <li>
+            <strong>Changes on Render.</strong> Render doesn't notice when you push. After pushing a fix,
+            click <strong>Manual Deploy</strong>, then <strong>Deploy latest commit</strong>.
+        </li>
+        <li>
+            <strong>The deploy log is your friend.</strong> The
+            <a href="render-setup.html#problems">troubleshooting table</a> in the Render setup covers the
+            most common errors.
+        </li>
+        <li>
+            <strong>It's slow the first time.</strong> A free Render server falls asleep after 15 minutes
+            with no visitors and takes about a minute to wake up.
+        </li>
+    </ul>
+
+    <h2>A Note on Generative AI</h2>
+    <p>
+        Do not use ChatGPT, Copilot, Claude, or any other generative AI tool to write any part of this
+        assignment. Whatever you do, remember that your goal should be to understand 100% of the code that
+        you turn in.
+    </p>
+
+    <h2>What to Submit</h2>
+    <p>
+        Nothing to submit directly. Push your <code>express-hosting</code> folder, make sure your Render link
+        works, and make sure that link is in your <code>README.md</code>.
+    </p>
+
+</body>
+
+</html>
