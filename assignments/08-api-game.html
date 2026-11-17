@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>An API-Powered Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        h2 {
+            margin-top: 40px;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 4px;
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        code {
+            background-color: #f0f0f0;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        pre {
+            background-color: #f0f0f0;
+            padding: 12px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 12px 0;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 6px 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .warning {
+            background-color: #fff4e5;
+            border-left: 5px solid #f0a020;
+            padding: 10px 14px;
+            margin: 16px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Assignment 8: An API-Powered Game</h1>
+
+    <p><strong>Due:</strong> Friday, 11/27/26, by 11:59 PM.</p>
+
+    <h2>Goal</h2>
+    <p>
+        Build a small game where <strong>your server</strong> talks to two things outside of it: a free public
+        API that supplies the game (words, Pokémon, cards, or trivia questions), and a MongoDB Atlas database that
+        saves everyone's results. A player uses buttons or a form on your page, your server does the work, and the
+        page updates.
+    </p>
+    <p>
+        Every piece of this is something we've done in class: <code>fetch</code> to our own server, routes in
+        Express, POST with a JSON body, calling an outside API from the server, secrets in <code>.env</code>,
+        saving and reading with MongoDB, and hosting on Render. This assignment puts them together.
+    </p>
+    <p>
+        Useful examples:
+        <a href="https://github.com/mtreanor/csc336-fall2026/tree/main/examples/11-17-26"
+            target="_blank">Calling the Gemini API from Our Server</a> (server calls an outside API and sends the
+        result to the page) and the MongoDB example from class on Friday 11/20.
+    </p>
+
+    <h2 id="games">Pick a Game</h2>
+    <p>
+        Pick one of these three, or make up your own game using any API you want. The three APIs below are free and
+        need no API key. If the API you choose needs a key, that's fine: keep it secret the same way as your
+        MongoDB connection string (see requirement 3).
+    </p>
+
+    <h3>1. Higher or Lower (Pokémon)</h3>
+    <p>
+        Two Pokémon appear, along with a random stat, like "Which one has more <strong>speed</strong>?" or
+        "Which one has more <strong>HP</strong>?" Every right answer adds to your streak, and every round asks
+        about a different random stat (if they tie, either answer counts). One wrong answer ends the game, and your
+        streak goes on the leaderboard.
+    </p>
+    <ul>
+        <li>
+            <strong>API:</strong> <a href="https://pokeapi.co/" target="_blank">PokeAPI</a>.
+            <code>https://pokeapi.co/api/v2/pokemon/ID</code>, where ID is a number from 1 to 1025. The answer
+            includes <code>name</code>, a picture in <code>sprites.front_default</code>, and a
+            <code>stats</code> array with six stats (<code>hp</code>, <code>attack</code>, <code>defense</code>,
+            <code>special-attack</code>, <code>special-defense</code>, <code>speed</code>). Each one looks like
+            <code>{ base_stat: 90, stat: { name: "speed" } }</code>. You can also use <code>weight</code> and
+            <code>height</code>.
+        </li>
+        <li>
+            <strong>Front end:</strong> the question ("Which has more speed?"), two pictures and names, and a
+            button under each. Show the current streak. When the game ends, ask for a name to save the score, and
+            show the top 10.
+        </li>
+        <li>
+            <strong>Back end:</strong> a route that picks two random Pokémon and a random stat, fetches both
+            Pokémon, finds that stat for each one (a loop over <code>stats</code>), and sends back what the page
+            needs. A POST route that saves a score. A GET route for the leaderboard.
+        </li>
+    </ul>
+
+    <h3>2. Card Shark</h3>
+    <p>
+        Higher or lower with a real shuffled deck. You see a card. Will the next one be higher or lower? Keep
+        going until you're wrong.
+    </p>
+    <ul>
+        <li>
+            <strong>API:</strong> <a href="https://deckofcardsapi.com/" target="_blank">Deck of Cards API</a>.
+            <code>https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1</code> shuffles a new deck and
+            gives you its <code>deck_id</code>. Then
+            <code>https://deckofcardsapi.com/api/deck/DECK_ID/draw/?count=1</code> draws a card, with an
+            <code>image</code>, <code>value</code>, and <code>suit</code>.
+        </li>
+        <li>
+            <strong>Front end:</strong> the current card's picture, Higher and Lower buttons, the streak, and the
+            best runs from everyone.
+        </li>
+        <li>
+            <strong>Back end:</strong> a route that starts a game (shuffle and draw the first card), a route that
+            draws the next card, a POST route that saves a finished game, and a GET route for the best runs.
+        </li>
+    </ul>
+
+    <h3>3. Trivia</h3>
+    <p>
+        Answer multiple-choice questions. Your score goes on a leaderboard that everyone shares.
+    </p>
+    <ul>
+        <li>
+            <strong>API:</strong> <a href="https://opentdb.com/api_config.php" target="_blank">Open Trivia
+            Database</a>. <code>https://opentdb.com/api.php?amount=10&amp;type=multiple</code> gives 10 questions,
+            each with <code>question</code>, <code>correct_answer</code>, <code>incorrect_answers</code>,
+            <code>category</code>, and <code>difficulty</code>.
+        </li>
+        <li>
+            <strong>Front end:</strong> one question at a time, with the four answers as buttons (mixed up, so
+            the right one isn't always in the same place). Show right or wrong after each. At the end, save the
+            score with a name and show the leaderboard.
+        </li>
+        <li>
+            <strong>Back end:</strong> a route that fetches the questions, a POST route that saves a score, and a
+            GET route for the leaderboard.
+        </li>
+    </ul>
+
+    <h3 id="more-apis">Want to Make Your Own? Some APIs to Spark Ideas</h3>
+    <p>
+        Here are a few more APIs to look at. Every one of these works as of 11/17/26.
+    </p>
+    <table>
+        <tr>
+            <th>API</th>
+            <th>What it gives you</th>
+        </tr>
+        <tr>
+            <td><a href="https://dictionaryapi.dev/" target="_blank">Free Dictionary</a></td>
+            <td>Definitions of any English word, or a 404 if it isn't one</td>
+        </tr>
+        <tr>
+            <td><a href="https://www.themealdb.com/api.php" target="_blank">TheMealDB</a></td>
+            <td>Recipes from around the world, with photos and the country they're from</td>
+        </tr>
+        <tr>
+            <td><a href="https://openlibrary.org/developers/api" target="_blank">Open Library</a></td>
+            <td>Millions of books, with covers and publication years</td>
+        </tr>
+        <tr>
+            <td><a href="https://jokeapi.dev/" target="_blank">JokeAPI</a></td>
+            <td>Jokes, by category (use <code>safe-mode</code>)</td>
+        </tr>
+        <tr>
+            <td><a href="https://aistudio.google.com/" target="_blank">Gemini</a> (needs a free key, like
+                class on 11/17)</td>
+            <td>An AI that can write or judge almost anything</td>
+        </tr>
+    </table>
+
+    <h2 id="folder-structure">File and Folder Setup</h2>
+    <p>
+        Make a new <code>08-api-game</code> folder in your <code>assignments</code> folder. Folder and file names
+        must match exactly:
+    </p>
+<pre><code>csc336-fall2026/
+└── assignments/
+    └── 08-api-game/
+        ├── README.md
+        ├── .gitignore
+        ├── .env              (on your computer only, never pushed)
+        ├── package.json
+        ├── package-lock.json
+        ├── server.js
+        └── public/
+            ├── index.html
+            ├── style.css
+            └── script.js</code></pre>
+
+    <h2>Requirements</h2>
+    <ol>
+        <li>
+            <strong>Set up the folder</strong><br>
+            <code>cd</code> into <code>08-api-game</code> and run:
+<pre><code>npm install express mongodb dotenv</code></pre>
+            Add <code>"type": "module"</code> to <code>package.json</code>, like Assignment 7. Make a
+            <code>.gitignore</code> with these two lines:
+<pre><code>node_modules
+.env</code></pre>
+        </li>
+        <li>
+            <strong>Set up MongoDB Atlas</strong><br>
+            Follow along with what we did in class on 11/20: make a free account, create a <strong>Free</strong>
+            cluster, make a database user, and copy your connection string. Put it in <code>.env</code>:
+<pre><code>MONGODB_URI=mongodb+srv://USERNAME:PASSWORD@cluster0.xxxxx.mongodb.net/</code></pre>
+            In Atlas, under <strong>Network Access</strong>, allow access from anywhere
+            (<code>0.0.0.0/0</code>). Otherwise Render can't connect.
+        </li>
+        <li>
+            <strong>Your server calls the outside API</strong><br>
+            The browser never calls the game's API directly. Your <code>script.js</code> only ever fetches
+            <strong>your own</strong> routes, and your server fetches the outside API and sends back what the
+            page needs. If your API needs a key, put it in <code>.env</code> (for example
+            <code>API_KEY=...</code>), read it with <code>process.env.API_KEY</code>, and add it to Render's
+            Environment tab too. Never put a key in your code, and never in <code>script.js</code>.
+        </li>
+        <li>
+            <strong>The front end updates the page</strong><br>
+            Buttons and/or a form that <code>fetch</code> from your server and update the page with what comes
+            back. No page reloads.
+        </li>
+        <li>
+            <strong>Save to MongoDB</strong><br>
+            At least one POST route that receives JSON (<code>express.json()</code> and <code>req.body</code>)
+            and saves it with <code>insertOne</code>. For example: a name and a score, or a new word and who added
+            it.
+        </li>
+        <li>
+            <strong>Read from MongoDB, with a filter or a sort</strong><br>
+            At least one GET route that uses <code>find</code> with a filter (for example
+            <code>{ category: "History" }</code>) or a sort (for example highest score first), and sends the
+            results to the page. The page shows them (a leaderboard, best runs, everyone's captions).
+        </li>
+        <li>
+            <strong>Test it on your computer first</strong><br>
+            Run <code>node server.js</code> and play your game at
+            <a href="http://localhost:3000" target="_blank">http://localhost:3000</a>. Check your data in Atlas
+            under <strong>Browse Collections</strong>.
+        </li>
+        <li>
+            <strong>Host it on Render</strong><br>
+            Same as Assignment 7, with Root Directory <code>assignments/08-api-game</code>. Your
+            <code>.env</code> isn't pushed, so Render doesn't have it: in your service's
+            <strong>Environment</strong> tab, add <code>MONGODB_URI</code> with the same connection string.
+            Use <code>const port = process.env.PORT || 3000;</code> like before.
+        </li>
+        <li>
+            <strong><code>README.md</code>: your link, and trace one click</strong><br>
+            Put your Render link at the top. Then, in your own words (a short paragraph, 4 or 5 sentences), pick
+            one button or form in your game and explain everything that happens when someone uses it: what the
+            front end sends, which route on your server receives it, what your server asks the outside API or
+            MongoDB, and what comes back to the page.
+        </li>
+        <li>
+            <strong>Code comments</strong><br>
+            Add your own <strong>HAND-WRITTEN</strong> comments to <code>server.js</code> and
+            <code>script.js</code> explaining what each part does.
+        </li>
+    </ol>
+
+    <h2>Things That Will Trip You Up</h2>
+    <ul>
+        <li>
+            <strong>Do Atlas and Render first.</strong> The hardest part of this assignment is usually not the
+            game. It's the connection string, the Atlas Network Access setting, or Render's Environment tab. Get a
+            server on Render that saves one document to Atlas <strong>before</strong> you build the game, right
+            after class on 11/20.
+        </li>
+        <li>
+            <strong>Passwords with symbols.</strong> Characters like <code>@</code>, <code>:</code>, or
+            <code>/</code> in your database password break the connection string. Use a password with only
+            letters and numbers.
+        </li>
+        <li>
+            <strong>"Connected" never prints.</strong> Check that <code>.env</code> is in the same folder you run
+            <code>node server.js</code> from, that the password in the string is right (no
+            <code>&lt;</code> <code>&gt;</code> left around it), and that Network Access allows your IP.
+        </li>
+        <li>
+            <strong>Numbers that are strings.</strong> Values from inputs, query parameters, and some APIs are
+            strings. <code>"10" &gt; "9"</code> is <code>false</code>! Use <code>Number(...)</code> before you
+            compare or save a score.
+        </li>
+        <li>
+            <strong>Card values.</strong> The Deck of Cards API gives values like <code>"8"</code>,
+            <code>"KING"</code>, and <code>"ACE"</code>. You'll need to turn those into numbers yourself.
+        </li>
+        <li>
+            <strong>Trivia limits.</strong> Open Trivia only lets you ask once every 5 seconds. Ask too fast and
+            you get <code>response_code: 5</code> and no questions, so get all your questions in one request.
+            Questions also come with codes like <code>&amp;#039;</code> for <code>'</code>. Putting them on the
+            page with <code>innerHTML</code> shows them correctly.
+        </li>
+        <li>
+            <strong>Changes on Render.</strong> After pushing a fix, click <strong>Manual Deploy</strong>, then
+            <strong>Deploy latest commit</strong>. If you change an environment variable, Render redeploys for
+            you.
+        </li>
+    </ul>
+
+    <h2>A Note on Generative AI</h2>
+    <p>
+        Do not use ChatGPT, Copilot, Claude, or any other generative AI tool to write any part of this
+        assignment. Whatever you do, remember that your goal should be to understand 100% of the code that you
+        turn in.
+    </p>
+
+    <h2>What to Submit</h2>
+    <p>
+        Nothing to submit directly. Push your <code>08-api-game</code> folder (without <code>.env</code> or
+        <code>node_modules</code>), make sure your Render link works, and make sure your <code>README.md</code>
+        has the link and your trace-one-click paragraph.
+    </p>
+
+</body>
+
+</html>
