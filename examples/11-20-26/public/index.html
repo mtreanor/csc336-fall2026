@@ -1,0 +1,32 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <h1>Todo List</h1>
+        <form id="todoForm">
+            <input id="todoTextInput" type="text">
+            <input type="submit">
+        </form>
+        <script>
+            let todoForm = document.querySelector("#todoForm");
+            todoForm.addEventListener("submit", async (event) => {
+                // Stop the form from reloading the page, so our fetch can finish
+                event.preventDefault();
+
+                // The server reads this as req.body.todoText
+                let dataToSendToServer = {
+                    todoText: document.querySelector("#todoTextInput").value
+                }
+
+                // Send the new to-do to our server, which saves it in MongoDB.
+                // The browser never talks to MongoDB directly (the password is on the server).
+                await fetch("/todo", {
+                    method: "POST",                                  // sending, not just asking
+                    headers: { "Content-Type": "application/json" }, // "what I'm sending is JSON"
+                    body: JSON.stringify(dataToSendToServer)         // the data, as a JSON string
+                });
+            });
+        </script>
+    </body>
+</html>
