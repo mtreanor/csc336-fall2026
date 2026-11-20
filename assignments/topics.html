@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Topics Covered</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        h2 {
+            margin-top: 40px;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 4px;
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        code {
+            background-color: #f0f0f0;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        pre {
+            background-color: #f0f0f0;
+            padding: 12px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 12px 0;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 6px 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .warning {
+            background-color: #fff4e5;
+            border-left: 5px solid #f0a020;
+            padding: 10px 14px;
+            margin: 16px 0;
+        }
+    </style>
+</head>
+
+
+<body>
+    <h1>Topics Covered</h1>
+    <p>
+        The big ideas from this semester, through basic databases. Each area links to one or two class examples
+        that show it well. Open them, read the code, and make sure you could explain what each part does.
+    </p>
+
+    <h2>HTML and CSS</h2>
+    <ul>
+        <li>Structure of a page: <code>head</code>, <code>body</code>, common elements, empty containers for JavaScript to fill</li>
+        <li>Forms and inputs: text inputs, buttons, dropdowns, submit</li>
+        <li>CSS basics: selecting elements by tag, id, and class; margin and padding; basic flexbox</li>
+        <li>Loading JavaScript into a page (inline, external with <code>defer</code>, libraries from a CDN)</li>
+    </ul>
+    <p>Examples: <a href="https://github.com/mtreanor/csc336-fall2026/tree/main/examples/9-11-26" target="_blank">CSS basics (9/11)</a>, <a href="https://github.com/mtreanor/csc336-fall2026/tree/main/examples/9-22-26" target="_blank">Pokémon cards (9/22)</a></p>
+
+    <h2>JavaScript Fundamentals</h2>
+    <ul>
+        <li>Variables, strings, numbers, comparisons, <code>if</code> / <code>else</code></li>
+        <li>Loops: <code>for</code>, <code>for...of</code>, <code>while</code>, <code>forEach</code></li>
+        <li>Random numbers</li>
+    </ul>
+    <p>Example: <a href="https://github.com/mtreanor/csc336-fall2026/tree/main/examples/10-2-26" target="_blank">Loops, sorting, and function syntax (10/2)</a></p>
+
+    <h2>Arrays and Objects</h2>
+    <ul>
+        <li>An array of objects as the data behind an app</li>
+        <li>An object as a lookup table (<code>rooms["entry"]</code>)</li>
+        <li>Objects are references: changing one changes it everywhere</li>
+        <li>Array methods: <code>map</code>, <code>sort</code>, <code>forEach</code>, <code>filter</code></li>
+    </ul>
+    <p>Examples: <a href="https://github.com/mtreanor/csc336-fall2026/tree/main/examples/9-25-26" target="_blank">Adventure game (9/25)</a>, <a href="https://github.com/mtreanor/csc336-fall2026/tree/main/examples/10-20-26" target="_blank">Classes and map (10/20)</a></p>
+
+    <h2>Functions</h2>
+    <ul>
+        <li>Functions as values: storing them in variables, passing them to other functions (callbacks)</li>
+        <li>The different ways to write a function, including arrow functions</li>
+        <li>Closures: a function remembering the variables around it</li>
+    </ul>
+    <p>Examples: <a href="https://github.com/mtreanor/csc336-fall2026/tree/main/examples/9-29-26" target="_blank">Callbacks (9/29)</a>, <a href="https://github.com/mtreanor/csc336-fall2026/tree/main/examples/10-6-26" target="_blank">Closures (10/6)</a></p>
+
+    <h2>Classes</h2>
+    <ul>
+        <li><code>class</code>, <code>constructor</code>, <code>this</code>, methods, <code>new</code></li>
+        <li>An array of objects made from a class, each updating itself</li>
+    </ul>
+    <p>Examples: <a href="https://github.com/mtreanor/csc336-fall2026/tree/main/examples/10-20-26" target="_blank">MyArray class (10/20)</a>, <a href="https://github.com/mtreanor/csc336-fall2026/tree/main/examples/10-30-26" target="_blank">p5 creatures (10/30)</a></p>
+
+    <h2>The DOM and Events</h2>
+    <ul>
+        <li>Finding elements, creating new ones, and adding them to the page</li>
+        <li>Building the page from data, and clearing and redrawing it when the data changes</li>
+        <li>Responding to the user: click, change, and submit events; the event object; <code>preventDefault</code></li>
+    </ul>
+    <p>Examples: <a href="https://github.com/mtreanor/csc336-fall2026/tree/main/examples/9-25-26" target="_blank">Buttons and adventure game (9/25)</a>, <a href="https://github.com/mtreanor/csc336-fall2026/tree/main/examples/10-9-26" target="_blank">Forms (10/9)</a></p>
+
+    <h2>Saving Data in the Browser</h2>
+    <ul>
+        <li><code>localStorage</code></li>
+        <li>JSON: turning data into a string and back (<code>JSON.stringify</code>, <code>JSON.parse</code>)</li>
+    </ul>
+    <p>Example: <a href="https://github.com/mtreanor/csc336-fall2026/tree/main/examples/10-9-26" target="_blank">Forms and localStorage (10/9)</a></p>
+
+    <h2>Asynchronous JavaScript and APIs</h2>
+    <ul>
+        <li>Code that finishes later: <code>setTimeout</code>, promises</li>
+        <li><code>fetch</code> to get data from a public API</li>
+        <li><code>async</code> / <code>await</code></li>
+        <li>Reading nested data that comes back from an API</li>
+    </ul>
+    <p>Examples: <a href="https://github.com/mtreanor/csc336-fall2026/tree/main/examples/10-23-26" target="_blank">Promises and fetch (10/23)</a>, <a href="https://github.com/mtreanor/csc336-fall2026/tree/main/examples/10-27-26" target="_blank">p5 and PokeAPI (10/27)</a></p>
+
+    <h2>Node and Servers</h2>
+    <ul>
+        <li>Running JavaScript outside the browser; reading and writing files</li>
+        <li>What a server is: requests and responses, URLs, ports</li>
+        <li>Express: routes, serving a folder of files, sending JSON</li>
+        <li>Sending data to a server: query parameters, POST with a JSON body</li>
+        <li>A front end that talks to its own server with <code>fetch</code></li>
+    </ul>
+    <p>Examples: <a href="https://github.com/mtreanor/csc336-fall2026/tree/main/examples/11-6-26" target="_blank">Basic Node server (11/6)</a>, <a href="https://github.com/mtreanor/csc336-fall2026/tree/main/examples/11-13-26" target="_blank">Express with GET and POST (11/13)</a></p>
+
+    <h2>Calling APIs from the Server, Secrets, and Hosting</h2>
+    <ul>
+        <li>The server calls an outside API and passes the result to the page</li>
+        <li>Keeping keys and passwords secret in <code>.env</code></li>
+        <li>Static hosting (GitHub Pages) vs. running a server (Render)</li>
+    </ul>
+    <p>Examples: <a href="https://github.com/mtreanor/csc336-fall2026/tree/main/examples/11-17-26" target="_blank">Gemini from our server (11/17)</a>, <a href="./render-setup.html">Hosting a server on Render</a></p>
+
+    <h2>Basic Databases</h2>
+    <ul>
+        <li>Why a database instead of a file</li>
+        <li>Connecting from the server; databases, collections, and documents</li>
+        <li>Adding data from a form: browser, then our server, then the database</li>
+    </ul>
+    <p>Examples: <a href="https://github.com/mtreanor/csc336-fall2026/tree/main/examples/11-20-26" target="_blank">Saving to-dos (11/20)</a>, <a href="./mongodb-setup.html">Setting up a database</a></p>
+
+</body>
+
+</html>
