@@ -18,6 +18,8 @@
                 let dataToSendToServer = {
                     todoText: document.querySelector("#todoTextInput").value
                 }
+                // Clear the input to the user can update another
+                document.querySelector("#todoTextInput").value = "";
 
                 // Send the new to-do to our server, which saves it in MongoDB.
                 // The browser never talks to MongoDB directly (the password is on the server).
