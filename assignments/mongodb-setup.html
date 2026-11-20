@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Setting Up a MongoDB Database</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        h2 {
+            margin-top: 40px;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 4px;
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        code {
+            background-color: #f0f0f0;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        pre {
+            background-color: #f0f0f0;
+            padding: 12px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 12px 0;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 6px 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .warning {
+            background-color: #fff4e5;
+            border-left: 5px solid #f0a020;
+            padding: 10px 14px;
+            margin: 16px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Setting Up a MongoDB Database</h1>
+
+    <h2>What Is MongoDB?</h2>
+    <p>
+        <strong>MongoDB</strong> is a database: a separate program whose only job is to store data and
+        hand it back when asked. Our Node server will talk to it. Instead of reading and rewriting a JSON
+        file, our server asks MongoDB to add, find, change, or delete things, and MongoDB keeps them safe
+        even when our server stops, restarts, or gets redeployed on Render.
+    </p>
+    <p>
+        <strong>MongoDB Atlas</strong> is MongoDB's hosting service. It runs a MongoDB database for you on
+        their computers, all day, so you don't have to install anything. It has a <strong>free
+        tier</strong>, and that's all we'll use in this class.
+    </p>
+
+    <div class="warning">
+        <strong>You should not spend any money on Atlas.</strong> Always pick the <strong>Free</strong>
+        cluster, and <strong>don't add a credit card or any payment method</strong>. If a screen asks you
+        to pay, you picked the wrong option: go back.
+    </div>
+
+    <h2>A Few Words First</h2>
+    <table>
+        <tr>
+            <th>Word</th>
+            <th>What it means</th>
+        </tr>
+        <tr>
+            <td>Cluster</td>
+            <td>The MongoDB server Atlas runs for you. You get one free one.</td>
+        </tr>
+        <tr>
+            <td>Database</td>
+            <td>A named group of collections, like <code>csc336</code>. One cluster can hold many.</td>
+        </tr>
+        <tr>
+            <td>Collection</td>
+            <td>A named list of documents, like <code>todos</code>. Similar to an array.</td>
+        </tr>
+        <tr>
+            <td>Document</td>
+            <td>One item in a collection. It's just a JavaScript object, like
+                <code>{ text: "buy milk" }</code>.</td>
+        </tr>
+        <tr>
+            <td>Connection string</td>
+            <td>A long URL that tells your server where your cluster is, and includes your database
+                username and password.</td>
+        </tr>
+    </table>
+
+    <h2 id="account">Step 1: Make an Atlas Account</h2>
+    <ol>
+        <li>
+            Go to <a href="https://www.mongodb.com/cloud/atlas/register" target="_blank">mongodb.com/cloud/atlas/register</a>.
+        </li>
+        <li>
+            Sign up with Google, GitHub, or an email address. Any of them works.
+        </li>
+        <li>
+            Atlas may ask some welcome questions (what you're building, what language you use). Answer them
+            however you like, or skip them. They don't change anything.
+        </li>
+    </ol>
+
+    <h2 id="cluster">Step 2: Create a Free Cluster</h2>
+    <ol>
+        <li>
+            After signing up, Atlas usually takes you straight to creating a cluster. If it doesn't, click
+            <strong>Create</strong> (or <strong>Build a Cluster</strong>) on the main page.
+        </li>
+        <li>
+            <strong>Pick the Free option.</strong> You'll see a few choices. Older guides call the free one
+            <strong>M0</strong>. Don't pick <strong>Flex</strong> or anything with a price.
+        </li>
+        <li>
+            Fill in the rest:
+            <table>
+                <tr>
+                    <th>Field</th>
+                    <th>What to put</th>
+                </tr>
+                <tr>
+                    <td>Name</td>
+                    <td>Leave it as <code>Cluster0</code>. You can't rename a cluster later.</td>
+                </tr>
+                <tr>
+                    <td>Provider</td>
+                    <td>Anything (AWS is fine)</td>
+                </tr>
+                <tr>
+                    <td>Region</td>
+                    <td>One close to you, like <code>us-east-1</code> (N. Virginia)</td>
+                </tr>
+            </table>
+        </li>
+        <li>
+            Click the button to create it. It takes a minute or two to finish setting up.
+        </li>
+    </ol>
+
+    <h2 id="user">Step 3: Create a Database User</h2>
+    <p>
+        This is <em>not</em> your Atlas login. It's a separate username and password that your
+        <strong>server</strong> uses to get into the database.
+    </p>
+    <ol>
+        <li>
+            Atlas should pop up a security screen asking you to create a database user. (If it doesn't,
+            click <strong>Connect</strong> on your cluster, and it will ask you there.)
+        </li>
+        <li>
+            Type a <strong>username</strong> and a <strong>password</strong>. Use only letters and numbers
+            in the password. Symbols like <code>@</code>, <code>/</code>, or <code>:</code> have special
+            meanings in a URL and will break your connection string.
+        </li>
+        <li>
+            <strong>Copy the password somewhere now.</strong> Atlas won't show it to you again. If you lose
+            it, you'll have to make a new one.
+        </li>
+        <li>
+            Click <strong>Create Database User</strong>.
+        </li>
+    </ol>
+
+    <h2 id="ip">Step 4: Allow Your Computer to Connect</h2>
+    <p>
+        Atlas blocks every computer from connecting unless it's on your <strong>IP Access List</strong>.
+        An IP address is a number that identifies a computer on the internet.
+    </p>
+    <ol>
+        <li>
+            On the same security screen, click <strong>Add Your Current IP Address</strong>. That lets your
+            laptop in.
+        </li>
+        <li>
+            <strong>For Render (and to save yourself headaches):</strong> also add
+            <code>0.0.0.0/0</code>. This means "allow any IP address." Render's servers don't have one fixed
+            IP address, and your laptop's IP changes when you switch Wi-Fi networks (home, campus, a coffee
+            shop), so without this your server will suddenly stop connecting. Your database is still
+            protected by the username and password from Step 3.
+            <ul>
+                <li>
+                    To add it later: in the left sidebar, click <strong>Network Access</strong>, then
+                    <strong>Add IP Address</strong>. Some versions have an <strong>Allow Access from
+                    Anywhere</strong> button; if not, type <code>0.0.0.0/0</code> into the box yourself.
+                    Click <strong>Confirm</strong>.
+                </li>
+            </ul>
+        </li>
+        <li>
+            Click <strong>Finish and Close</strong>.
+        </li>
+    </ol>
+
+    <h2 id="connection-string">Step 5: Get Your Connection String</h2>
+    <ol>
+        <li>
+            Go to your cluster (left sidebar, <strong>Clusters</strong>) and click <strong>Connect</strong>.
+        </li>
+        <li>
+            Choose <strong>Drivers</strong>, then pick <strong>Node.js</strong> from the dropdown.
+        </li>
+        <li>
+            Copy the connection string. It looks like this:
+<pre><code>mongodb+srv://yourusername:&lt;db_password&gt;@cluster0.abc123.mongodb.net/?retryWrites=true&amp;w=majority&amp;appName=Cluster0</code></pre>
+        </li>
+        <li>
+            <strong>Replace <code>&lt;db_password&gt;</code></strong> with the password from Step 3. Delete
+            the <code>&lt;</code> and <code>&gt;</code> too. (Some versions say <code>&lt;password&gt;</code>
+            instead. Same idea.) For example, if your password is <code>abc123</code>:
+<pre><code>mongodb+srv://yourusername:abc123@cluster0.abc123.mongodb.net/?retryWrites=true&amp;w=majority&amp;appName=Cluster0</code></pre>
+        </li>
+        <li>
+            Ignore the example code Atlas shows under the string. We'll write our own.
+        </li>
+    </ol>
+
+    <div class="warning">
+        <strong>Your connection string is a secret.</strong> Anyone who has it can read, change, or delete
+        everything in your database. Treat it like the Gemini API key: it goes in <code>.env</code>, never
+        in your code, and never on GitHub.
+    </div>
+
+    <h2 id="project">Step 6: Make the Project</h2>
+    <ol>
+        <li>
+            <strong>Make a folder</strong><br>
+            In VS Code, open your <code>csc336-fall2026</code> folder. Make a new folder inside it called
+            <code>mongo-test</code>.
+        </li>
+        <li>
+            <strong>Make <code>package.json</code></strong> inside <code>mongo-test</code>:
+<pre><code>{
+  "name": "mongo-test",
+  "type": "module"
+}</code></pre>
+        </li>
+        <li>
+            <strong>Install the packages</strong><br>
+            In the terminal:
+<pre><code>cd mongo-test
+npm install express mongodb dotenv</code></pre>
+            <code>express</code> is our server, <code>mongodb</code> is the official package for talking to
+            MongoDB from Node, and <code>dotenv</code> loads our <code>.env</code> file.
+        </li>
+        <li>
+            <strong>Make <code>.gitignore</code></strong> inside <code>mongo-test</code>, so the secret and
+            the downloaded packages never get pushed:
+<pre><code>node_modules
+.env</code></pre>
+        </li>
+        <li>
+            <strong>Make <code>.env</code></strong> inside <code>mongo-test</code>. Put your connection
+            string from Step 5 after <code>MONGODB_URI=</code>, all on one line, with no spaces or quotes:
+<pre><code>MONGODB_URI=mongodb+srv://yourusername:abc123@cluster0.abc123.mongodb.net/?retryWrites=true&amp;w=majority&amp;appName=Cluster0</code></pre>
+        </li>
+    </ol>
+
+    <h2 id="server">Step 7: Write the Server</h2>
+    <p>
+        This server stores a to-do list. It has four routes, one for each thing you can do with data:
+        list it, add to it, change it, and delete from it. People call these four things
+        <strong>CRUD</strong> (Create, Read, Update, Delete).
+    </p>
+    <table>
+        <tr>
+            <th>Route</th>
+            <th>What it does</th>
+            <th>MongoDB function</th>
+        </tr>
+        <tr>
+            <td><code>GET /api/todos</code></td>
+            <td>List every to-do</td>
+            <td><code>find</code></td>
+        </tr>
+        <tr>
+            <td><code>POST /api/todos</code></td>
+            <td>Add a to-do</td>
+            <td><code>insertOne</code></td>
+        </tr>
+        <tr>
+            <td><code>PUT /api/todos/:id</code></td>
+            <td>Change one to-do</td>
+            <td><code>updateOne</code></td>
+        </tr>
+        <tr>
+            <td><code>DELETE /api/todos/:id</code></td>
+            <td>Delete one to-do</td>
+            <td><code>deleteOne</code></td>
+        </tr>
+    </table>
+    <p>Make <code>server.js</code> inside <code>mongo-test</code>:</p>
+<pre><code>import "dotenv/config";
+import express from "express";
+import { MongoClient, ObjectId } from "mongodb";
+
+let app = express();
+let port = process.env.PORT || 3000;
+
+app.use(express.json());
+
+// The connection string has our password in it, so it lives in .env
+let client = new MongoClient(process.env.MONGODB_URI);
+await client.connect();
+console.log("Connected to MongoDB");
+
+// A database holds collections. A collection holds documents (just objects).
+// Neither has to exist yet: Mongo creates them the first time we insert.
+let database = client.db("csc336");
+let todos = database.collection("todos");
+
+
+// LIST: GET /api/todos
+app.get("/api/todos", async (req, res) => {
+    // {} is a filter that matches every document.
+    // find() gives back a "cursor"; toArray() turns it into a normal array.
+    let cursor = todos.find({});
+    let allTodos = await cursor.toArray();
+    res.json(allTodos);
+});
+
+
+// ADD: POST /api/todos   with a body like { "text": "buy milk" }
+app.post("/api/todos", async (req, res) => {
+    let newTodo = {
+        text: req.body.text
+    };
+
+    // Mongo gives every new document a unique _id
+    await todos.insertOne(newTodo);
+
+    let cursor = todos.find({});
+    let allTodos = await cursor.toArray();
+    res.json(allTodos);
+});
+
+
+// MODIFY: PUT /api/todos/&lt;id&gt;   with a body like { "text": "buy oat milk" }
+// :id in the path means "whatever is here, call it id". Express puts it in req.params.id
+app.put("/api/todos/:id", async (req, res) => {
+    // _id is stored as an ObjectId, not a plain string, so we convert it
+    let id = new ObjectId(req.params.id);
+
+    // First object: which document. Second object: what to change.
+    // $set means "change just these fields, leave the rest alone"
+    await todos.updateOne({ _id: id }, { $set: { text: req.body.text } });
+
+    let cursor = todos.find({});
+    let allTodos = await cursor.toArray();
+    res.json(allTodos);
+});
+
+
+// DELETE: DELETE /api/todos/&lt;id&gt;
+app.delete("/api/todos/:id", async (req, res) => {
+    let id = new ObjectId(req.params.id);
+
+    await todos.deleteOne({ _id: id });
+
+    let cursor = todos.find({});
+    let allTodos = await cursor.toArray();
+    res.json(allTodos);
+});
+
+
+app.listen(port, () => {
+    console.log("Server running at http://localhost:" + port);
+});</code></pre>
+    <p>A few things to notice:</p>
+    <ul>
+        <li>
+            We connect to the database <strong>once</strong>, at the top, before the server starts. Every
+            route uses that same connection.
+        </li>
+        <li>
+            Every MongoDB function has to wait for an answer from Atlas (a different computer), so each
+            route is <code>async</code> and each database call has <code>await</code>, just like
+            <code>fetch</code>.
+        </li>
+        <li>
+            Every route sends back the whole list, so you can always see what your request just did.
+        </li>
+    </ul>
+
+    <h2 id="try">Step 8: Run It and Try It</h2>
+    <ol>
+        <li>
+            In the terminal (inside <code>mongo-test</code>):
+<pre><code>node server.js</code></pre>
+            You should see <code>Connected to MongoDB</code> and then
+            <code>Server running at http://localhost:3000</code>. If it crashes instead, see
+            <a href="#problems">If Something Goes Wrong</a>.
+        </li>
+        <li>
+            Visit <a href="http://localhost:3000/api/todos" target="_blank">http://localhost:3000/api/todos</a>.
+            You should see <code>[]</code>: an empty list, because there's nothing in the database yet.
+        </li>
+        <li>
+            <strong>Add a to-do.</strong> We don't have a front end, so we'll send requests from the browser
+            console. On that same page, open the console and paste:
+<pre><code>let r = await fetch("/api/todos", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text: "buy milk" })
+});
+await r.json();</code></pre>
+            You'll get back a list with one to-do in it. Notice the <code>_id</code>: MongoDB made that up.
+            Refresh the page and it's there too.
+        </li>
+        <li>
+            <strong>Change it.</strong> Copy the <code>_id</code> (just the letters and numbers inside the
+            quotes) and paste it in place of <code>PASTE_ID</code>:
+<pre><code>r = await fetch("/api/todos/PASTE_ID", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text: "buy oat milk" })
+});
+await r.json();</code></pre>
+        </li>
+        <li>
+            <strong>Delete it:</strong>
+<pre><code>r = await fetch("/api/todos/PASTE_ID", { method: "DELETE" });
+await r.json();</code></pre>
+        </li>
+        <li>
+            <strong>See that it sticks.</strong> Add a couple more to-dos. Then stop the server with
+            <strong>Ctrl+C</strong>, start it again, and refresh <code>/api/todos</code>. Your to-dos are
+            still there. They aren't in your server at all: they're in Atlas.
+        </li>
+        <li>
+            <strong>Look at it in Atlas.</strong> In Atlas, go to your cluster and click <strong>Browse
+            Collections</strong> (or <strong>Data Explorer</strong>). You'll see a <code>csc336</code>
+            database with a <code>todos</code> collection inside it, holding the same documents. You can
+            even edit or delete them right there.
+        </li>
+    </ol>
+
+    <h2 id="render">Putting It on Render</h2>
+    <p>
+        Follow the <a href="./render-setup.html">Render setup instructions</a> like usual, with
+        <code>mongo-test</code> as the Root Directory. Two extra things:
+    </p>
+    <ol>
+        <li>
+            <strong>Add your connection string to Render.</strong> Your <code>.env</code> file isn't on
+            GitHub (that's the point), so Render doesn't have it. In your service's page, click
+            <strong>Environment</strong>, add a variable named <code>MONGODB_URI</code>, and paste the same
+            connection string as the value. Save, then redeploy.
+        </li>
+        <li>
+            <strong>Make sure <code>0.0.0.0/0</code> is in your Atlas Network Access list</strong> (see
+            Step 4). Otherwise Atlas won't let Render's servers in.
+        </li>
+    </ol>
+    <p>
+        Now your local server and your Render server both use the <em>same</em> database. Add a to-do on
+        one and you'll see it on the other.
+    </p>
+
+    <h2 id="free">Things to Know About the Free Tier</h2>
+    <ul>
+        <li>
+            <strong>512 MB of storage.</strong> That's a huge amount of text. You won't come close in this
+            class.
+        </li>
+        <li>
+            <strong>It never expires,</strong> but if nothing connects to it for 30 days, Atlas pauses it.
+            You can resume it from the Atlas page anytime.
+        </li>
+        <li>
+            <strong>One free cluster per project.</strong> You don't need more than one: make a different
+            database name (the <code>client.db("...")</code> part) for each app instead.
+        </li>
+    </ul>
+
+    <h2 id="problems">If Something Goes Wrong</h2>
+    <p>Most problems happen at <code>await client.connect()</code>, before the server even starts.</p>
+    <table>
+        <tr>
+            <th>You see</th>
+            <th>It probably means</th>
+        </tr>
+        <tr>
+            <td><code>bad auth</code> or <code>Authentication failed</code></td>
+            <td>Wrong username or password in your connection string. Did you replace
+                <code>&lt;db_password&gt;</code>, and remove the <code>&lt;</code> <code>&gt;</code>? Is it
+                the database user's password (Step 3), not your Atlas login?</td>
+        </tr>
+        <tr>
+            <td>It hangs for about 30 seconds, then a <code>Server selection timed out</code> error</td>
+            <td>Your IP isn't allowed. Check Network Access in Atlas (Step 4). This often happens after
+                switching Wi-Fi networks.</td>
+        </tr>
+        <tr>
+            <td><code>The "url" argument must be of type string. Received undefined</code></td>
+            <td><code>process.env.MONGODB_URI</code> is empty. Is <code>.env</code> inside
+                <code>mongo-test</code> (not somewhere else)? Is it spelled <code>MONGODB_URI</code> exactly?
+                Are you running <code>node server.js</code> from inside <code>mongo-test</code>?</td>
+        </tr>
+        <tr>
+            <td><code>Invalid scheme</code></td>
+            <td>The connection string is mangled. It must start with <code>mongodb+srv://</code>. Check
+                for extra quotes or spaces in <code>.env</code>.</td>
+        </tr>
+        <tr>
+            <td><code>Cannot find package 'mongodb'</code></td>
+            <td>You didn't run <code>npm install</code> (or ran it in a different folder)</td>
+        </tr>
+        <tr>
+            <td>A 500 error when changing or deleting</td>
+            <td>The id in the URL isn't a real <code>_id</code>. Copy it again from <code>/api/todos</code>.</td>
+        </tr>
+        <tr>
+            <td>Works on your computer, crashes on Render</td>
+            <td>You forgot <code>MONGODB_URI</code> in Render's Environment tab, or <code>0.0.0.0/0</code>
+                isn't in Network Access</td>
+        </tr>
+        <tr>
+            <td>Connection string shows up on GitHub</td>
+            <td>Your <code>.env</code> got pushed. In Atlas, change that database user's password right
+                away (Database Access), then fix your <code>.gitignore</code>.</td>
+        </tr>
+    </table>
+
+</body>
+
+</html>
